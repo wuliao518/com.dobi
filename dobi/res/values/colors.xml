@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="beige">#ece7e3</color>
+    <color name="transparent">#00000000</color>
+    <color name="atrous">#5B5B5B</color>
+    <color name="phototop">#ece7e4</color>
+    <color name="white">#ffffff</color>
+    <color name="gridview">#494949</color>
+    <color name="translucent">#d0cbc4</color>
+    <color name="whitetwo">#FFF8DC</color>
+    <color name="grey">#9D9D9D</color>
+    
+    <color name="button_sixty">#99ece7e3</color>
+
+    <color name="top">#b2ebebeb</color>
+    <color name="center">#ffffff</color>
+	<color name="botom">#ebebeb</color>
+
+    <drawable name="clr_normal">#00000000</drawable>
+    <drawable name="clr_pressed">#777675</drawable>
+    <drawable name="clr_normal_two">#99ece7e3</drawable>
+    <drawable name="clr_pressed_two">#777675</drawable>
+    
+    <!-- <drawable name="clr_pressed">#e0cccccc</drawable> -->
+
+
+    <!-- 背景，灰色 （上海） -->
+    <color name="bg_background">#ece7e3</color>
+
+</resources>

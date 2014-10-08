@@ -1,0 +1,52 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ece7e3"
+    tools:context=".MainActivity" >
+    
+    
+    <RelativeLayout android:id="@+id/mRelativeLayout"
+				 	android:layout_width="fill_parent"
+					android:layout_height="40dip"
+				 	android:background="@android:color/transparent" >
+
+        <ImageButton
+	            android:id="@+id/btn_back"
+	            android:layout_width="50dp"
+	            android:layout_height="40dp"
+	            android:layout_marginLeft="10dp"
+	            android:background="@android:color/transparent"
+	            android:src="@drawable/btn_back1" />
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@android:color/transparent"
+            android:text="@string/family_tuandui"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+    </RelativeLayout>
+    
+
+     <WebView
+	        android:id="@+id/webView"
+	        android:layout_below="@id/mRelativeLayout"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:layerType="software" 
+	        android:background="#ece7e3"
+	        android:fadingEdge="none"
+	        android:scrollbars="none" />
+     
+      <!-- <ProgressBar android:id="@+id/progressBar"
+    			android:layout_marginTop="30dp"
+			       android:layout_width="wrap_content"
+			       android:layout_height="wrap_content"
+			       android:layout_centerInParent="true"
+			       android:visibility="gone"/> -->
+
+</RelativeLayout>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/prop0"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/btnProp0"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:background="@color/transparent">
+
+        <ImageButton
+            android:id="@+id/btnQP"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:scaleType="centerInside"
+            android:background="@drawable/button_selector_two"
+            android:onClick="btnQPOnClick"
+            android:src="@drawable/qipao" />
+
+        <ImageButton
+            android:id="@+id/btnCW"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:scaleType="centerInside"
+            android:background="@drawable/button_selector_two"
+            android:onClick="btnCWOnClick"
+            android:src="@drawable/pet" />
+
+        <ImageButton
+            android:id="@+id/btnDJ"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:scaleType="centerInside"
+            android:background="@drawable/button_selector_two"
+            android:onClick="btnDJOnClick"
+            android:src="@drawable/daoju" />
+    </LinearLayout>
+
+    <HorizontalScrollView
+        android:id="@+id/propScrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:background="@color/center"
+        android:scrollbars="none" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:background="@color/center"
+            android:cacheColorHint="@android:color/transparent"
+            android:fadingEdge="none"
+            android:listSelector="@android:color/transparent" >
+
+            <GridView
+                android:id="@+id/propGridView"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:background="@color/center"
+                android:cacheColorHint="@android:color/transparent"
+                android:fadingEdge="none"
+                android:horizontalSpacing="5dp"
+                android:listSelector="@android:color/transparent" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+</LinearLayout>

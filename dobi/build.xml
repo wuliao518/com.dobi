@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="com.dobi"  basedir=".">
+	<!-- 这个是android.jar路径，具体情况具体配置 -->
+    <property name="android-jar" value="H:/AndroidSDK/platforms/android-17/android.jar" />
+    <!-- 用于生成多渠道版本的APK文件名，提供了默认值，后面会讲到 -->
+    <target name="init">
+        <echo>start initing ... </echo>
+        <mkdir dir="out" />
+        <delete>
+            <fileset dir="out"></fileset>
+        </delete>
+        <mkdir dir="gen" />
+        <delete>
+            <fileset dir="gen"></fileset>
+        </delete>
+        <mkdir dir="bin/classes" />
+        <delete>
+            <fileset dir="bin/classes"></fileset>
+        </delete>
+        <!-- ${apk-version}表示版本，后面会详细讲到 -->
+        <mkdir dir="build/${apk-version}" />
+        <echo>finish initing. </echo>
+    </target>
+    
+    <echo>generating R.java for project to dir gen (using aapt) ... </echo>
+        <exec executable="aapt">
+            <arg value="package" /> <!-- package表示打包-->
+            <arg value="-m" /> <!--m,J,gen表示创建包名的目录和R.java到gen目录下 -->
+            <arg value="-J" />
+            <arg value="gen" />
+            <arg value="-M" /> <!-- M指定AndroidManifest.xml文件-->
+            <arg value="AndroidManifest.xml" />
+            <arg value="-S" /> <!-- S指定res目录，生成对应的ID，可多个-->
+            <arg value="res" />
+            <arg value="-S" /> <!-- S指定res目录，生成对应的ID，可多个-->
+            <arg value="../appcompat_v7/res" />
+            <arg value="-S" /> <!-- S指定res目录，生成对应的ID，可多个-->
+            <arg value="../ShareSDK-Android-v2.3.12-All/v2.3.12/ShareSDK for Android/Libs/OneKeyShare/res" />
+            
+            <arg value="-S" /> <!-- S指定res目录，生成对应的ID，可多个-->
+            <arg value="../ShareSDK-Android-v2.3.12-All/v2.3.12/ShareSDK for Android/Libs/MainLibs/res"/>
+            
+            
+            
+            
+            
+            <arg value="-S" />
+            <arg value="../doubi/res" /><!-- 注意点:同时需要调用Library的res-->
+            <arg value="-I" /> <!-- I指定android包的位置-->
+            <arg value="${android-jar}" />
+            <arg value="--auto-add-overlay" /> <!-- 这个重要，覆盖资源，不然报错-->
+        </exec>
+    
+</project>

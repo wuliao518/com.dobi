@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/singleDressing0"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/btnRelative0"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:background="@color/button_sixty" >
+
+        <ImageButton
+            android:id="@+id/btnHair"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:scaleType="centerInside"
+            android:background="@drawable/button_selector"
+            android:onClick="btnHairOnClick"
+            android:src="@drawable/xiandai" 
+            />
+
+        <ImageButton
+            android:id="@+id/btnOldHair"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:scaleType="centerInside"
+            android:background="@drawable/button_selector"
+            android:onClick="btnOldHairOnClick"
+            android:src="@drawable/gudai" 
+            />
+
+        <ImageButton
+            android:id="@+id/btnRX"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:scaleType="centerInside"
+            android:background="@drawable/button_selector"
+            android:onClick="btnRXOnClick"
+            android:src="@drawable/rexue" 
+             />
+
+        <ImageButton
+            android:id="@+id/btnXR"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:scaleType="centerInside"
+            android:background="@drawable/button_selector"
+            android:onClick="btnXROnClick"
+            android:src="@drawable/rensheng" 
+             />
+
+        <ImageButton
+            android:id="@+id/btnLJ"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@drawable/button_selector"
+            android:onClick="btnLJOnClick"
+            android:text="@string/golden" 
+            android:visibility="gone"/>
+
+        <ImageButton
+            android:id="@+id/btnZJ"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@drawable/button_selector"
+            android:onClick="btnZJOnClick"
+            android:text="@string/armored_cavalry"
+            android:visibility="gone"
+             />
+    </LinearLayout>
+
+    <HorizontalScrollView
+        android:id="@+id/dressScrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:background="@color/center"
+        android:scrollbars="none" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:background="@color/center"
+            android:cacheColorHint="@android:color/transparent"
+            android:fadingEdge="none"
+            android:listSelector="@android:color/transparent" >
+
+            <GridView
+                android:id="@+id/dressingGridView"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:background="@color/center"
+                android:cacheColorHint="@android:color/transparent"
+                android:fadingEdge="none"
+                android:horizontalSpacing="14dp"
+                android:listSelector="@android:color/transparent" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+</LinearLayout>

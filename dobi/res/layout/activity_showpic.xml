@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imgfilter"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/runtime" >
+
+        <com.doubi.logic.TouchImageView
+            android:id="@+id/ivPic"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+
+        <com.doubi.logic.ClipImgView
+            android:id="@+id/ivPicClip"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@color/transparent" />
+    </FrameLayout>
+    <!-- 拍完主页 -->
+
+    <ImageButton
+        android:id="@+id/btnGoMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:background="@android:color/transparent"
+        android:onClick="btnGoMainOnclick"
+        android:paddingBottom="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="15dp"
+        android:src="@drawable/top" />
+    <!-- 重拍 -->
+
+    <ImageButton
+        android:id="@+id/btnReShoot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:background="@android:color/transparent"
+        android:onClick="btnReShootOnclick"
+        android:paddingBottom="15dp"
+        android:paddingLeft="15dp"
+        android:visibility="gone"
+        android:paddingRight="15dp"
+        android:paddingTop="15dp"
+        android:src="@drawable/reset" />
+    <!-- 强中弱按钮 -->
+
+    <LinearLayout
+        android:id="@+id/showbottom"
+        android:layout_width="fill_parent"
+        android:layout_height="65dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/btnCancel"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:onClick="btnCancelOnclick"
+            android:src="@drawable/no" />
+
+        <ImageButton
+            android:id="@+id/btnWeak"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="@dimen/activity_showpic_marginbottom"
+            android:layout_marginLeft="@dimen/activity_showpic_marginleft"
+            android:layout_marginRight="@dimen/activity_showpic_marginright"
+            android:layout_marginTop="@dimen/activity_showpic_margintop"
+            android:layout_weight="1"
+            android:background="@drawable/ruo"
+            android:onClick="btnWeakOnclick"
+            android:visibility="invisible" />
+
+        <ImageButton
+            android:id="@+id/btnMedium"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="@dimen/activity_showpic_marginbottom"
+            android:layout_marginLeft="@dimen/activity_showpic_marginleft"
+            android:layout_marginRight="@dimen/activity_showpic_marginright"
+            android:layout_marginTop="@dimen/activity_showpic_margintop"
+            android:layout_weight="1"
+            android:background="@drawable/medium"
+            android:onClick="btnMediumOnclick"
+            android:visibility="invisible" />
+
+        <ImageButton
+            android:id="@+id/btnStrong"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="@dimen/activity_showpic_marginbottom"
+            android:layout_marginLeft="@dimen/activity_showpic_marginleft"
+            android:layout_marginRight="@dimen/activity_showpic_marginright"
+            android:layout_marginTop="@dimen/activity_showpic_margintop"
+            android:layout_weight="1"
+            android:background="@drawable/qiang"
+            android:onClick="btnStrongOnclick"
+            android:visibility="invisible" />
+
+        <ImageButton
+            android:id="@+id/btnSure"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:onClick="btnSureOnclick"
+            android:src="@drawable/yes" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imgfilter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/showbottom"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:clickable="false"
+        android:focusable="false" />
+
+    <TextView
+        android:id="@+id/runtime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/btnGoMain"
+        android:singleLine="true"
+        android:text="@string/rendering"
+        android:textColor="#666666"
+        android:textSize="14dp"
+        android:visibility="gone" />
+
+</RelativeLayout>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/prop0"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/translucent"
+    android:orientation="horizontal" >
+
+    <Button
+        android:id="@+id/btnBT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/top"
+        android:onClick="btnBTOnClick"
+        android:text="2" />
+
+    <Button
+        android:id="@+id/ctvSw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/top"
+        android:onClick="btnQQOnClick"
+        android:text="2" />
+
+    <Button
+        android:id="@+id/ctvQz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/top"
+        android:onClick="ctvQzOnClick"
+        android:text="1" />
+
+    <Button
+        android:id="@+id/ctvTc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:onClick="ctvTcOnClick"
+        android:text="3" />
+
+    <Button
+        android:id="@+id/ctvRr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/top"
+        android:onClick="ctvRrOnClick"
+        android:text="4" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/top"
+        android:onClick="btnQPOnClick"
+        android:text="5" />
+
+</LinearLayout>

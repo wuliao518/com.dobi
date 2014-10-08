@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="faceSingleSize">160</string>
+    <string name="deleteBtnWidth">200</string>
+    <string name="deleteBtnHeight">100</string>
+    <string name="cancelSize">40</string>
+    <string name="gridViewSize">24</string>
+    <string name="app_name">dobi</string>
+    <string name="hello_world"></string>
+    <string name="action_settings"></string>
+    <string name="save">存储</string>
+    <string name="share">分享</string>
+    <string name="words">文字</string>
+    <string name="delete">删除</string>
+    <string name="choice">选择</string>
+    <string name="rendering">图片渲染中......</string>
+    <string name="face_painting">化妆</string>
+    <string name="dress">装扮</string>
+    <string name="Umeng">友盟更新</string>
+    <string name="powerful">叱咤风云</string>
+    <string name="enjoyment">乐不思蜀</string>
+    <string name="modern">摩登时代</string>
+    <string name="homecoming">似水流年</string>
+    <string name="odyssey">天下无双</string>
+    <string name="thief">纵横四海</string>
+    <string name="drama">戏如人生</string>
+    <string name="bubble">气泡文字</string>
+    <string name="pet_series">宠物系列</string>
+    <string name="prop_series">道具系列</string>
+    <string name="ancient_ornaments">古代发饰</string>
+    <string name="blood">热血青春</string>
+    <string name="golden">流金岁月</string>
+    <string name="armored_cavalry">装甲骑兵</string>
+    <string name="wooden">古木桌系列</string>
+    <string name="trave">云游四海</string>
+    <string name="photograph">移动照相馆 </string>
+    <string name="insufficient_memory">您的手机内存不足！</string>
+    <string name="song_typeface">宋体</string>
+    <string name="wait">等待</string>
+    <string name="decompression">文件解压中，请稍后...</string>
+    <string name="find">发现新版本，建议您尽快更新！</string>
+    <string name="version_update">软件版本更新</string>
+    <string name="version_low">发现新版本，是否更新？</string>
+    <string name="flow">所需流量:</string>
+    <string name="updata">更新</string>
+    <string name="cancel">取消</string>
+    <string name="version_updateing">软件版本更新...</string>
+    <string name="software_footage">软件素材包更新</string>
+    <string name="newest_picture">是否更新最新图片素材(Y/N)</string>
+    <string name="yes">确定</string>
+    <string name="picture_update">正在下载素材包，请稍等...</string>
+    <string name="establish_directory">正在创建解压目录-</string>
+    <string name="establish_file">正在创建解压文件-</string>
+    <string name="drop">再按一次退出程序</string>
+    <string name="save_album">已保存到相册</string>
+    <string name="loading">加载中，请稍后...</string>
+    <string name="sorry">很抱歉，您的设备可能不支持摄像头功能！</string>
+    <string name="doubi">逗比</string>
+    <string name="custom_bubble">自定义气泡</string>
+    <string name="dialog_updata_title">更新提示</string>
+    <string name="dialog_updata_text">本次更新，添加艺术家更过装备，等你来试穿，赶紧升级体验吧！</string>
+    <string name="title_activity_welcome">WelcomeActivity</string>
+    <string name="welcom_paly">\t\t开始制作\t\t</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_family">FamilyActivity</string>
+    <string name="family_chuangshiren">创始人</string>
+    <string name="family_tuandui">团队介绍</string>
+    <string name="family_lianhechuanshi">联合创始人</string>
+    <string name="family_heying">合  影</string>
+    <string name="pop_text">点击输入气泡文字</string>
+    <string name="photo_correct">矫正图像</string>
+
+    <!-- 上海方面提供 -->
+    <string name="title_activity_duxi">DuxiActivity</string>
+    <string name="dobiduxi">杜  溪</string>
+    <string name="title_activity_maliang">MaliangActivity</string>
+    <string name="dobimaliang">马  良</string>
+
+</resources>

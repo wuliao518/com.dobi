@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="itemWidth">100</string>
+    <string name="morePhotoWidth">40</string>
+    <string name="morePhotoLinearWidth">60</string>
+   
+    <string name="propMoreSize">11</string>
+    <string name="bubbleMoreSize">145</string>
+    <string name="propSingleSize">9</string>
+    <string name="bubbleSingleSize">120</string>
+     <string name="faceSingleSize">90</string>
+     <string name="cancelSize">45</string>
+    <string name="gridViewSize">20</string>
+
+</resources>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="faceSingleSize">160</string>
+    <string name="deleteBtnWidth">200</string>
+    <string name="deleteBtnHeight">100</string>
+    <string name="cancelSize">40</string>
+    <string name="gridViewSize">24</string>
+    <string name="app_name">dobi</string>
+    <string name="hello_world">hello_world</string>
+    <string name="action_settings"></string>
+    <string name="save">Save</string>
+    <string name="share">Share</string>
+    <string name="face">Face</string>
+    <string name="brow">Brow</string>
+    <string name="moustache">Moustache</string>
+    <string name="blusher">Blusher</string>
+    <string name="hair">Modern hair</string>
+    <string name="scene">Scene</string>
+    <string name="prop">prop</string>
+    <string name="pet">pet</string>
+    <string name="words">Writing</string>
+    <string name="delete">delete</string>
+    <string name="choice">choice</string>
+    <string name="rendering">rendering......</string>
+    <string name="face_painting">face_painting</string>
+    <string name="dress">dress up</string>
+    
+    
+    
+   <string name="Umeng">Umeng</string>
+    <string name="powerful">powerful</string>
+    <string name="enjoyment">enjoyment</string>
+    <string name="modern">modern</string>
+    <string name="homecoming">homecoming</string>
+    <string name="odyssey">odyssey</string>
+    <string name="thief">thief</string>
+    <string name="drama">drama</string>
+    <string name="bubble">bubble</string>
+    <string name="pet_series">pet_series</string>
+    <string name="prop_series">prop_series</string>
+    <string name="ancient_ornaments">ancient_ornaments</string>
+    <string name="blood">blood</string>
+    <string name="golden">golden</string>
+    <string name="armored_cavalry">armored_cavalry</string>
+    <string name="wooden">wooden</string>
+    <string name="trave">trave</string>
+    <string name="photograph">photograph </string>
+    <string name="insufficient_memory">insufficient_memory!</string>
+    <string name="song_typeface">song_typeface</string>
+    <string name="wait">wait</string>
+    <string name="decompression">In the files, please later</string>
+    <string name="find">Found the new version, it is recommended that you update as soon as possible!</string>
+    <string name="version_update">Software version update</string>
+    <string name="version_low">Found the new version, whether to update?</string>
+    <string name="flow">The required flow rate:</string>
+    <string name="updata">updata</string>
+    <string name="cancel">cancel</string>
+    <string name="version_updateing">version_updateing</string>
+    <string name="software_footage">software_footage</string>
+    <string name="newest_picture">newest_picture(Y/N)</string>
+    <string name="yes">yes</string>
+    <string name="picture_update">picture_update</string>
+    <string name="establish_directory">establish_directory</string>
+    <string name="establish_file">establish_file</string>
+    <string name="drop">Again according to exit the program</string>
+    <string name="save_album">Has been saved to the photo album</string>
+    <string name="loading">loading</string>
+    <string name="sorry">I am sorry, your device may not support camera function</string>
+    <string name="doubi">doubi</string>
+    <string name="custom_bubble">custom_bubble</string>
+    <string name="dialog_updata_title">dialog_updata_title</string>
+    <string name="dialog_updata_text">This update, add artists more equipment, waiting for you to try it on, hurriedly upgrade experience!</string>
+    <string name="title_activity_welcome">WelcomeActivity</string>
+    <string name="welcom_paly">Start</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_family">FamilyActivity</string>
+    <string name="family_chuangshiren">Originator</string>
+    <string name="family_tuandui">team introduction</string>
+    <string name="family_lianhechuanshi">Subset Games</string>
+    <string name="family_heying">group photo</string>
+    <string name="pop_text">Click on the input text bubbles</string>
+    <string name="photo_correct">Alignment Correction</string>
+
+    
+    <string name="title_activity_duxi">DuxiActivity</string>
+    <string name="dobiduxi">Du xi</string>
+    <string name="title_activity_maliang">MaliangActivity</string>
+    <string name="dobimaliang">Ma liang</string>
+    
+   
+    
+</resources>

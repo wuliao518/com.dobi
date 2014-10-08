@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialogCamera"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/beige"
+    android:paddingBottom="15dp" >
+
+    <ImageButton
+        android:id="@+id/dialogPhotoOne"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/PhotoOne"
+        android:layout_alignLeft="@+id/PhotoOne"
+        android:layout_alignRight="@+id/PhotoOne"
+        android:layout_alignTop="@+id/PhotoOne"
+        android:layout_margin="20dp"
+        android:background="#ffffff" />
+
+    <ImageButton
+        android:id="@+id/PhotoOne"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linear"
+        android:background="@drawable/photoaaaaa"
+        android:onClick="PhotoOneOnclick" />
+
+    <ImageButton
+        android:id="@+id/dialogPhotoTwo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/PhotoTwo"
+        android:layout_alignLeft="@+id/PhotoTwo"
+        android:layout_alignRight="@+id/PhotoTwo"
+        android:layout_alignTop="@+id/PhotoTwo"
+        android:layout_margin="20dp"
+        android:layout_toRightOf="@id/dialogPhotoOne"
+        android:background="#ffffff" />
+
+    <ImageButton
+        android:id="@+id/PhotoTwo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linear"
+        android:layout_toRightOf="@id/dialogPhotoOne"
+        android:background="@drawable/photoaaaaa"
+        android:onClick="PhotoTwoOnclick" />
+
+    <ImageButton
+        android:id="@+id/dialogPhotoThree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/PhotoThree"
+        android:layout_alignLeft="@+id/PhotoThree"
+        android:layout_alignRight="@+id/PhotoThree"
+        android:layout_alignTop="@+id/PhotoThree"
+        android:layout_below="@id/dialogPhotoOne"
+        android:layout_margin="20dp"
+        android:background="#ffffff" />
+
+    <ImageButton
+        android:id="@+id/PhotoThree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialogPhotoOne"
+        android:background="@drawable/photoaaaaa"
+        android:onClick="PhotoThreeOnclick" />
+
+    <ImageButton
+        android:id="@+id/dialogPhotoFour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/PhotoFour"
+        android:layout_alignLeft="@+id/PhotoFour"
+        android:layout_alignRight="@+id/PhotoFour"
+        android:layout_alignTop="@+id/PhotoFour"
+        android:layout_below="@id/dialogPhotoTwo"
+        android:layout_margin="20dp"
+        android:layout_toRightOf="@+id/dialogPhotoOne"
+        android:background="#ffffff" />
+
+    <ImageButton
+        android:id="@+id/PhotoFour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialogPhotoTwo"
+        android:layout_toRightOf="@+id/dialogPhotoOne"
+        android:background="@drawable/photoaaaaa"
+        android:onClick="PhotoFourOnclick" />
+
+    <ImageButton
+        android:id="@+id/photoCorrect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dialogPhotoThree"
+        android:layout_centerHorizontal="true"
+        android:background="#00000000"
+        android:src="@layout/button_sure" />
+
+    <LinearLayout
+        android:id="@+id/linear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="照片保存方向校正"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="请选择方向正确的照片"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+</RelativeLayout>

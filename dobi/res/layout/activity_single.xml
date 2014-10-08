@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/topLinear"
+        android:background="@android:color/black"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/black"
+            android:orientation="horizontal" >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:orientation="horizontal">
+                <!-- 装饰主页 -->
+                <ImageButton
+                    android:id="@+id/btnMain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:paddingLeft="14dp"
+                    android:scaleType="centerInside"
+                    android:background="@android:color/transparent"
+                    android:onClick="btnMainOnclick"
+                    android:src="@drawable/top"/>
+                <!-- 重拍 -->
+                <ImageButton
+                    android:id="@+id/btnPhoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:paddingLeft="20dp"
+                    android:scaleType="centerInside"
+                    android:background="@android:color/transparent"
+                    android:onClick="btnPhotoOnclick"
+                    android:src="@drawable/photo" />
+        </LinearLayout>
+         <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal" >
+            <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:scaleType="centerInside"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:visibility="invisible"
+                    android:layout_marginRight="10dp"
+                    android:background="@android:color/transparent"
+                    android:onClick="btnShareOnclick"
+                    android:src="@drawable/share" />
+            </LinearLayout>
+        <LinearLayout 
+        	android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal" >
+            <ImageButton
+                    android:id="@+id/btnSave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:scaleType="centerInside"
+                     android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@android:color/transparent"
+                    android:onClick="btnSaveOnclick"
+                    android:src="@drawable/save" />
+        </LinearLayout>
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal" >
+            <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:scaleType="centerInside"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:visibility="invisible"
+                    android:layout_marginRight="10dp"
+                    android:background="@android:color/transparent"
+                    android:onClick="btnShareOnclick"
+                    android:src="@drawable/share" />
+            </LinearLayout>
+       		<LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:orientation="horizontal" >
+            <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:scaleType="centerInside"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:visibility="invisible"
+                    android:background="@android:color/transparent"
+                    android:onClick="btnShareOnclick"
+                    android:src="@drawable/share" />
+                <ImageButton
+                    android:id="@+id/btnShare"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:paddingRight="14dp"
+                    android:scaleType="centerInside"
+                    android:background="@android:color/transparent"
+                    android:onClick="btnShareOnclick"
+                    android:src="@drawable/share" />
+                
+          </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/drawViewFrameLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/btnRelative"
+        android:layout_below="@+id/topLinear" >
+
+        <com.doubi.logic.drawView.HeadDrawView
+            android:id="@+id/mHeadDrawView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+
+        <com.doubi.logic.drawView.HairDrawView
+            android:id="@+id/mHairDrawView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+
+        <com.doubi.logic.drawView.BodyDrawView
+            android:id="@+id/mBodyDrawView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+
+        <com.doubi.logic.drawView.SceneDrawView
+            android:id="@+id/mSceneDrawView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+
+        <com.doubi.logic.drawView.PropDrawView
+            android:id="@+id/mPropDrawView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/LinearBottom"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/transparent"
+        android:orientation="vertical"
+        android:visibility="invisible" >
+
+        <LinearLayout
+            android:id="@+id/btnRelative0"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+			android:background="@color/transparent">
+
+            <ImageButton
+                android:id="@+id/btnFace"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:scaleType="centerInside"
+                android:background="@drawable/button_selector_two"
+                android:onClick="btnFaceOnClick"
+                android:src="@drawable/face" />
+
+            <ImageButton
+                android:id="@+id/btnBrow"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:scaleType="centerInside"
+                android:background="@drawable/button_selector_two"
+                android:onClick="btnBrowOnClick"
+                android:src="@drawable/meimao"/>
+
+            <ImageButton
+                android:id="@+id/btnMoustache"
+                android:scaleType="centerInside"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@drawable/button_selector_two"
+                android:onClick="btnMoustacheOnClick"
+                android:src="@drawable/huzi" />
+
+            <ImageButton
+                android:id="@+id/btnBlusher"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:scaleType="centerInside"
+                android:layout_weight="1"
+                android:background="@drawable/button_selector_two"
+                android:onClick="btnBlusherOnClick"
+                android:src="@drawable/saihong"/>
+        </LinearLayout>
+
+        <HorizontalScrollView
+            android:id="@+id/scrollImageView"
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:background="@color/center"
+            android:scrollbars="none" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <GridView
+                    android:id="@+id/faceGridView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/center"
+                    android:cacheColorHint="@android:color/transparent"
+                    android:fadingEdge="none"
+                    android:horizontalSpacing="14dp"
+                    android:listSelector="@android:color/transparent" />
+            </LinearLayout>
+        </HorizontalScrollView>
+    </LinearLayout>
+
+    <include
+        android:id="@+id/singleDressing"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        layout="@layout/control_single_dressing"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/singleScene"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        layout="@layout/control_single_scene"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/prop"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        layout="@layout/control_prop"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/btnRelative"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal" >
+
+            <ImageButton
+                android:id="@+id/btnHZ"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+				android:clickable="true"
+				android:scaleType="centerInside"
+                android:background="@android:color/transparent"
+                android:onClick="btnHZOnclick"
+                android:src="@drawable/huazhuang" />
+
+            <ImageButton
+                android:id="@+id/btnPropMore"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:scaleType="centerInside"
+                android:background="@android:color/transparent"
+                android:onClick="btnZBOnclick"
+                android:src="@drawable/zhuangban"/>
+
+            <ImageButton
+                android:id="@+id/btnScene"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:scaleType="centerInside"
+                android:background="@android:color/transparent"
+                android:onClick="btnSceneOnclick"
+                android:src="@drawable/changjing" />
+
+            <ImageButton
+                android:id="@+id/btnProp"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:scaleType="centerInside"
+                android:clickable="true"
+                android:background="@android:color/transparent"
+                android:onClick="btnPropOnclick"
+                android:src="@drawable/prop"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <ImageButton
+        android:id="@+id/propDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:src="@drawable/cancelselectprop"
+        android:visibility="gone" />
+
+</RelativeLayout>
