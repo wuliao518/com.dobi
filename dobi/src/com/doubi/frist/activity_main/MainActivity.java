@@ -46,11 +46,9 @@ public class MainActivity extends Activity {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		// 检查并创建素材目录
 		(new Intelegence()).CheckAndCreatRoot();
-
 		view = View.inflate(this, R.layout.activity_main, null);
 		setContentView(view);
 		context = this; // 得到上下文
-
 		// 友盟推送
 		PushAgent mPushAgent = PushAgent.getInstance(context);
 		mPushAgent.enable();
