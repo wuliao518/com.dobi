@@ -1,5 +1,6 @@
 package com.doubi.view;
 
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -18,7 +19,6 @@ import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.BitmapFactory.Options;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -33,24 +33,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
-import android.widget.Toast;
-import cn.sharesdk.framework.ShareSDK;
-
-import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import com.dobi.R;
 import com.doubi.common.CommonMethod;
@@ -67,7 +61,34 @@ import com.doubi.logic.svgResolve.SVG;
 import com.doubi.view.adapter.SingleAdapter;
 import com.doubi.view.adapter.item.MapItem;
 import com.umeng.analytics.MobclickAgent;
-
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.controller.UMServiceFactory;
+import com.umeng.socialize.controller.UMSocialService;
+import com.umeng.socialize.facebook.controller.UMFacebookHandler;
+import com.umeng.socialize.facebook.controller.UMFacebookHandler.PostType;
+import com.umeng.socialize.facebook.media.FaceBookShareContent;
+import com.umeng.socialize.instagram.controller.UMInstagramHandler;
+import com.umeng.socialize.instagram.media.InstagramShareContent;
+import com.umeng.socialize.media.GooglePlusShareContent;
+import com.umeng.socialize.media.QQShareContent;
+import com.umeng.socialize.media.QZoneShareContent;
+import com.umeng.socialize.media.RenrenShareContent;
+import com.umeng.socialize.media.SinaShareContent;
+import com.umeng.socialize.media.SmsShareContent;
+import com.umeng.socialize.media.TencentWbShareContent;
+import com.umeng.socialize.media.TwitterShareContent;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.sso.EmailHandler;
+import com.umeng.socialize.sso.QZoneSsoHandler;
+import com.umeng.socialize.sso.RenrenSsoHandler;
+import com.umeng.socialize.sso.SinaSsoHandler;
+import com.umeng.socialize.sso.SmsHandler;
+import com.umeng.socialize.sso.TencentWBSsoHandler;
+import com.umeng.socialize.sso.UMQQSsoHandler;
+import com.umeng.socialize.sso.UMSsoHandler;
+import com.umeng.socialize.weixin.controller.UMWXHandler;
+import com.umeng.socialize.weixin.media.CircleShareContent;
+import com.umeng.socialize.weixin.media.WeiXinShareContent;
 @SuppressLint({ "HandlerLeak", "NewApi" })
 public class SingleActivity extends Activity {
 
@@ -83,7 +104,15 @@ public class SingleActivity extends Activity {
 	private PropDrawView mPropDrawView;
 	private boolean hasMeasured = false;// 确保只执行一次
 	private Bitmap bitmapBj;// 场景
-
+	
+	private Dialog note;
+	
+	// 首先在您的Activity中添加如下成员变量
+	final UMSocialService mController = UMServiceFactory.getUMSocialService("com.umeng.share");
+	//com.umeng.socialize.controller.UMSocialService
+	//com.umeng.socialize.controller.UMSocialService
+	//com.umeng.socialize.controller.UMServiceFactory
+	
 	private ImageButton btnHZ;
 	private ImageButton btnZB;
 	private ImageButton btnScene;
@@ -157,7 +186,6 @@ public class SingleActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		ShareSDK.initSDK(this);
 		setContentView(R.layout.activity_single);
 		ExitAppUtils.getInstance().addActivity(this);
 		propDelete = (ImageButton) findViewById(R.id.propDelete);
@@ -202,9 +230,6 @@ public class SingleActivity extends Activity {
 		btnZB = (ImageButton) this.findViewById(R.id.btnPropMore);
 		btnScene = (ImageButton) this.findViewById(R.id.btnScene);
 		btnProp = (ImageButton) this.findViewById(R.id.btnProp);
-		
-		
-		
 		
 		btnFace = (ImageButton) findViewById(R.id.btnFace);
 		btnBrow = (ImageButton) findViewById(R.id.btnBrow);
@@ -302,7 +327,6 @@ public class SingleActivity extends Activity {
 		public boolean onTouch(View view, MotionEvent motionEvent) {
 			switch (motionEvent.getAction()) {
 			case MotionEvent.ACTION_DOWN:
-
 				break;
 			case MotionEvent.ACTION_MOVE:
 				float X = motionEvent.getX();
@@ -323,7 +347,6 @@ public class SingleActivity extends Activity {
 					scrollViewMeasuredWidth = mPropScrollView.getChildAt(0)
 							.getMeasuredWidth();
 				}
-
 				if (Xpre != 0 && X != 0 && !filepath.isEmpty()
 						&& !CommonMethod.IsDialogShowing()) {
 					// 向后划
@@ -740,11 +763,6 @@ public class SingleActivity extends Activity {
 	 * 开始拍照
 	 */
 	private void startPhoto() {
-		
-		
-		
-		
-		final Dialog note;
 		RelativeLayout relativeLayout;
 		// 渲染布局，获取相应控件
 		LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
@@ -985,7 +1003,7 @@ public class SingleActivity extends Activity {
 		this.pageCount = (this.mImageManager.GetFileCount(filepath)
 				+ facePageSize - 1)
 				/ facePageSize;
-
+		updatePageCount(filepath);
 		new processImageTask(2).execute();
 		mHeadDrawView.selectWidget(2);
 	}
@@ -1006,7 +1024,7 @@ public class SingleActivity extends Activity {
 		this.pageCount = (this.mImageManager.GetFileCount(filepath)
 				+ facePageSize - 1)
 				/ facePageSize;
-
+		updatePageCount(filepath);
 		new processImageTask(3).execute();
 		mHeadDrawView.selectWidget(3);
 	}
@@ -1027,7 +1045,7 @@ public class SingleActivity extends Activity {
 		this.pageCount = (this.mImageManager.GetFileCount(filepath)
 				+ facePageSize - 1)
 				/ facePageSize;
-
+		updatePageCount(filepath);
 		new processImageTask(4).execute();
 		mHeadDrawView.selectWidget(4);
 	}
@@ -1342,7 +1360,6 @@ public class SingleActivity extends Activity {
 				+ ConstValue.ROOT_PATH + ConstValue.SCENE_PATH
 				+ ConstValue.TRAVE_PATH;
 		updatePageCount(filepath);
-
 		new processImageTask(1).execute();
 	}
 
@@ -1360,7 +1377,6 @@ public class SingleActivity extends Activity {
 				+ ConstValue.ROOT_PATH + ConstValue.SCENE_PATH
 				+ ConstValue.MOVE_PATH;
 		updatePageCount(filepath);
-
 		new processImageTask(2).execute();
 	}
 
@@ -1776,38 +1792,236 @@ public class SingleActivity extends Activity {
 	}
 
 	private void showShare() {
-		ShareSDK.initSDK(this);
-		OnekeyShare oks = new OnekeyShare();
-		// 关闭sso授权
-		oks.disableSSOWhenAuthorize();
-		oks.setNotification(R.drawable.ic_launcher,
-				getString(R.string.app_name));
-		// title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-		oks.setTitle(getString(R.string.share));
-		// titleUrl是标题的网络链接，仅在人人网和QQ空间使用
-		oks.setTitleUrl("http://www.do-bi.cn");
-		// text是分享文本，所有平台都需要这个字段
-		oks.setText("来自 " + this.getResources().getString(R.string.app_name));
-		// imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-		oks.setImagePath(Environment.getExternalStorageDirectory()
-				+ ConstValue.ROOT_PATH
-				+ ConstValue.ImgName.resultImg.toString() + "jpg");
-		// url仅在微信（包括好友和朋友圈）中使用
-		oks.setUrl("http://www.do-bi.cn");
-		// comment是我对这条分享的评论，仅在人人网和QQ空间使用
-		oks.setComment("来自 " + this.getResources().getString(R.string.app_name));
-		// site是分享此内容的网站名称，仅在QQ空间使用
-		oks.setSite(getString(R.string.app_name));
-		// siteUrl是分享此内容的网站地址，仅在QQ空间使用
-		oks.setSiteUrl("http://www.do-bi.cn");
+		
+		//获得分享的图片**************************************
+		String path=Environment.getExternalStorageDirectory()
+				+ ConstValue.ROOT_PATH+ ConstValue.ImgName.resultImg.toString() + "jpg";
+		com.umeng.socialize.utils.Log.LOG = true;
+//		// 设置分享内容
+//		mController.setShareContent("来自 dobi 的分享，http://www.do-bi.cn");
+//		// 设置分享图片, 参数2为图片的url地址
+//		mController.setShareMedia(new UMImage(SingleActivity.this,path));
+//		// 设置分享图片，参数2为本地图片的资源引用
+//		mController.setShareMedia(new UMImage(SingleActivity.this, path));
+//		// 设置分享图片，参数2为本地图片的路径(绝对路径)
 
-		// 启动分享GUI
-		oks.show(this);
+		
+//		mController.setShareMedia(new UMImage(SingleActivity.this, 
+//		                               BitmapFactory.decodeFile("/mnt/sdcard/icon.png")));
+//		Environment.getExternalStorageDirectory()
+//		+ ConstValue.ROOT_PATH+ ConstValue.ImgName.resultImg.toString() + ".jpg"
+		
+		
+				
+		//添加微信和朋友圈的分享*********************************
+		// wx967daebe835fbeac是你在微信开发平台注册应用的AppID, 这里需要替换成你注册的AppID
+		String appID = "wx1b506dffaf2c0d29";
+		String appSecret = "08628077bebecd9b38a447b1184d107c";
+		// 添加微信平台
+		UMWXHandler wxHandler = new UMWXHandler(SingleActivity.this,appID,appSecret);
+		wxHandler.addToSocialSDK();
+		
+		// 支持微信朋友圈
+		UMWXHandler wxCircleHandler = new UMWXHandler(SingleActivity.this,appID,appSecret);
+		wxCircleHandler.setToCircle(true);
+		wxCircleHandler.addToSocialSDK();
+		
+		
+		
+		//设置微信好友分享内容***
+		WeiXinShareContent weixinContent = new WeiXinShareContent();
+		//设置分享文字
+	//	weixinContent.setShareContent("来自友盟社会化组件（SDK）让移动应用快速整合社交分享功能，微信");
+		//设置title
+	//	weixinContent.setTitle("来自  dobi 的分享");
+		//设置分享内容跳转URL
+		weixinContent.setTargetUrl("Http://www.do-bi.cn");
+		//设置分享图片
+		weixinContent.setShareImage(new UMImage(SingleActivity.this, path));
+		mController.setShareMedia(weixinContent);
 
+		//设置微信朋友圈分享内容
+		CircleShareContent circleMedia = new CircleShareContent();
+		circleMedia.setShareImage(new UMImage(SingleActivity.this, path));
+		circleMedia.setTargetUrl("http://www.do-bi.cn");
+		mController.setShareMedia(circleMedia);
+		
+		
+		
+		
+		//QQ分享****************************************
+		//参数1为当前Activity，参数2为开发者在QQ互联申请的APP ID，参数3为开发者在QQ互联申请的APP kEY.
+		UMQQSsoHandler qqSsoHandler = new UMQQSsoHandler(SingleActivity.this, "1103195405",
+		                "23suWtOPCw8GbQrH");
+		qqSsoHandler.addToSocialSDK(); 
+		//分享的内容设置
+		QQShareContent qqShareContent = new QQShareContent();
+		//设置分享文字
+	//	qqShareContent.setShareContent("来自  dobi 的分享");
+		//设置分享title
+	//	qqShareContent.setTitle("hello, title");
+		//设置分享图片
+		qqShareContent.setShareImage(new UMImage(SingleActivity.this, path));
+		//设置点击分享内容的跳转链接
+		qqShareContent.setTargetUrl("http://www.do-bi.cn");
+		mController.setShareMedia(qqShareContent);
+		
+		
+		//QQ空间分享************
+		//参数1为当前Activity，参数2为开发者在QQ互联申请的APP ID，参数3为开发者在QQ互联申请的APP kEY.
+		QZoneSsoHandler qZoneSsoHandler = new QZoneSsoHandler(SingleActivity.this, "1103195405",
+		                "23suWtOPCw8GbQrH");
+		qZoneSsoHandler.addToSocialSDK();
+		
+		QZoneShareContent qzone = new QZoneShareContent();
+		qzone.setShareImage(new UMImage(SingleActivity.this, path));
+		qzone.setShareContent("dobi逗比");
+			//设置分享title
+		qzone.setTitle("来自  dobi逗比 的分享");
+		qzone.setTargetUrl("http://www.do-bi.cn");
+		mController.setShareMedia(qzone);
+				
+
+		
+			//设置新浪SSO handler****************
+			mController.getConfig().setSsoHandler(new SinaSsoHandler());
+			
+			//设置分享的图片
+			SinaShareContent sina = new SinaShareContent();
+			sina.setShareImage(new UMImage(SingleActivity.this,path));
+			sina.setShareContent("来自  dobi逗比 的分享");
+			sina.setTargetUrl("Http://www.do-bi.cn");
+			mController.setShareMedia(sina);
+				
+		
+		
+				//设置腾讯微博SSO handler
+				mController.getConfig().setSsoHandler(new TencentWBSsoHandler());
+				TencentWbShareContent tencentwb = new TencentWbShareContent();
+				//设置分享图片
+				tencentwb.setShareImage(new UMImage(SingleActivity.this,path));
+				tencentwb.setShareContent("来自  dobi逗比 的分享");
+				tencentwb.setTargetUrl("Http://www.do-bi.cn");
+				mController.setShareMedia(tencentwb);
+				
+				
+				//添加人人网SSO授权功能
+				//APPID:201874
+				//API Key:28401c0964f04a72a14c812d6132fcef
+				//Secret:3bf66e42db1e4fa9829b955cc300b737
+				RenrenSsoHandler renrenSsoHandler = new RenrenSsoHandler(SingleActivity.this,
+				            "271793", "89467799953943859c5f91ec73463ce7",
+				            "da9a33d176b34203bb45d8408f60fb8e");
+				mController.getConfig().setSsoHandler(renrenSsoHandler);
+				
+				RenrenShareContent renren = new RenrenShareContent();
+				renren.setTargetUrl("Http://www.do-bi.cn");
+				//设置分享图片
+				renren.setShareImage(new UMImage(SingleActivity.this,path));
+				mController.setShareMedia(renren);
+				
+				
+//				//设置新浪SSO handler
+//				mController.getConfig().setSsoHandler(new SinaSsoHandler());
+				
+				
+//				//设置website的方式如下：人人网
+//				mController.setAppWebSite(SHARE_MEDIA.RENREN, "http://www.umeng.com/social");
+				
+				// 添加短信
+				SmsHandler smsHandler = new SmsHandler();
+				smsHandler.addToSocialSDK();
+				
+				SmsShareContent smsshare = new SmsShareContent();
+				//设置分享图片
+				smsshare.setShareImage(new UMImage(SingleActivity.this,path));
+				smsshare.setShareContent("来自  dobi逗比 的分享");
+				mController.setShareMedia(smsshare);
+				
+				
+				// 添加email
+				EmailHandler emailHandler = new EmailHandler();
+//				emailHandler.mShareMedia();
+				emailHandler.addToSocialSDK();
+				
+				
+				// 添加facebook支持, 参数1为当前activity
+				// 设置facebook为大图分享,如果不设置则默认为图文分享
+				UMFacebookHandler mFacebookHandler = new UMFacebookHandler(SingleActivity.this,
+						"1478225025760676",PostType.PHOTO);
+				mFacebookHandler.addToSocialSDK();
+				
+				String fappid = "1478225025760676";
+				FaceBookShareContent facebook = new FaceBookShareContent(fappid);
+				facebook.setShareImage(new UMImage(SingleActivity.this,path));
+				facebook.setShareContent("来自  dobi逗比 的分享");
+				mController.setShareMedia(facebook);
+				
+				
+			// 添加Twitter分享
+				mController.getConfig().supportAppPlatform(SingleActivity.this, SHARE_MEDIA.TWITTER,
+						"com.umeng.share", true);
+				TwitterShareContent twitter = new TwitterShareContent();
+				twitter.setShareImage(new UMImage(SingleActivity.this,path));
+				twitter.setShareContent("来自  dobi逗比  的分享");
+				mController.setShareMedia(twitter);
+				
+				
+				// 构建Instagram的Handler
+				UMInstagramHandler instagramHandler = new UMInstagramHandler(SingleActivity.this);
+				// 将instagram添加到sdk中
+				instagramHandler.addToSocialSDK();
+				// 本地图片
+				UMImage localImage = new UMImage(SingleActivity.this, path);
+				// 设置分享到Instagram的内容， 注意由于instagram客户端的限制，目前该平台只支持纯图片分享，文字、音乐、url图片等都无法分享。
+				InstagramShareContent instagramShareContent = new InstagramShareContent(localImage);
+				// 设置Instagram的分享内容
+				mController.setShareMedia(instagramShareContent);
+				
+				
+				
+				//添加G+分享
+				mController.getConfig().supportAppPlatform(SingleActivity.this, SHARE_MEDIA.GOOGLEPLUS,
+						"com.umeng.share", true) ; 
+				GooglePlusShareContent goole = new GooglePlusShareContent();
+				goole.setShareImage(new UMImage(SingleActivity.this,path));
+				goole.setShareContent("来自  dobi逗比 的分享");
+				mController.setShareMedia(goole);
+				
+		
+			// 是否只有已登录用户才能打开分享选择页
+	        mController.openShare(SingleActivity.this, false);
+		
+		
+		// 设置分享音乐
+		//UMusic uMusic = new UMusic("http://sns.whalecloud.com/test_music.mp3");
+		//uMusic.setAuthor("GuGu");
+		//uMusic.setTitle("天籁之音");
+		// 设置音乐缩略图
+		//uMusic.setThumb("http://www.umeng.com/images/pic/banner_module_social.png");
+		//mController.setShareMedia(uMusic);
+
+		// 设置分享视频
+		//UMVideo umVideo = new UMVideo(
+//		          "http://v.youku.com/v_show/id_XNTE5ODAwMDM2.html?f=19001023");
+		// 设置视频缩略图
+		//umVideo.setThumb("http://www.umeng.com/images/pic/banner_module_social.png");
+		//umVideo.setTitle("友盟社会化分享!");
+		//mController.setShareMedia(umVideo);
+		
+		
+		
+		
+		
+		
+		
 	}
 	@Override
 	protected void onDestroy() {
 		ExitAppUtils.getInstance().delActivity(this);
+		if(note!=null&&note.isShowing()){
+			note.dismiss();
+		}
 		super.onDestroy();
 	}
 	@Override
@@ -1878,6 +2092,12 @@ public class SingleActivity extends Activity {
 			}
 			
 		}
+		
+		/**使用SSO授权必须添加如下代码 */
+	    UMSsoHandler ssoHandler1 = mController.getConfig().getSsoHandler(requestCode) ;
+	    if(ssoHandler1 != null){
+	       ssoHandler1.authorizeCallBack(requestCode, resultCode, data);
+	    }
 	}
 
 }

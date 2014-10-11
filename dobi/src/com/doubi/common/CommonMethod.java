@@ -155,7 +155,7 @@ public class CommonMethod {
 	}
 
 	public static void CloseDialog() {
-		if (note != null) {
+		if (note != null&&note.isShowing()) {
 			note.dismiss();
 		}
 	}

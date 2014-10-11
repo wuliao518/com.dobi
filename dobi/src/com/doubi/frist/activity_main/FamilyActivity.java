@@ -74,6 +74,7 @@ public class FamilyActivity extends Activity {
 						                // TODO Auto-generated method stub
 						                super.onPageStarted(view, url, favicon);
 						                //调用原来加载的进度条
+						                CommonMethod.CloseDialog();
 						                CommonMethod.ShowMyDialog(FamilyActivity.this);
 		///				                progressBar.setVisibility(android.view.View.VISIBLE);
 		 //			    Toast.makeText(ElecHall.this, "onPageStarted", 2).show();
@@ -93,6 +94,7 @@ public class FamilyActivity extends Activity {
 						                    String description, String failingUrl) {
 						                // TODO Auto-generated method stub
 						                super.onReceivedError(view, errorCode, description, failingUrl);
+						                CommonMethod.CloseDialog();
 			//			                progressBar.setVisibility(android.view.View.GONE);
 						            }
 						            

@@ -90,8 +90,7 @@ public class ImageManager {
 	public boolean loadImgForMore() {
 		String filepath = Environment.getExternalStorageDirectory()
 				+ ConstValue.ROOT_PATH + ConstValue.MORE_CLIP_FACE
-				+ ConstValue.ImgName.morePhotoClip.toString() + "0"
-				+ this.extJPG;
+				+ "photo"+ this.extJPG;
 		File file = new File(filepath);
 
 		return file.exists();
@@ -144,7 +143,7 @@ public class ImageManager {
 					BitmapFactory.Options options = new BitmapFactory.Options();
 					options.inJustDecodeBounds = true;// 只取尺寸
 					bm = BitmapFactory.decodeFile(file.getPath(), options);
-					int newWidth = 300;
+					int newWidth = 1000;
 					if (maxWidth != 0) {
 						maxWidth = maxWidth > options.outWidth ? options.outWidth
 								: maxWidth;
@@ -972,33 +971,38 @@ public class ImageManager {
 	public List<int[]> getRed(Bitmap bitmap, int count) {
 		List<int[]> list = new ArrayList<int[]>();
 		int flag = 0;
-		int red = 225, green = 50, blue = 50;
-		for (int i = 0; i < bitmap.getWidth() - 5; i++) {
-			for (int j = 0; j < bitmap.getHeight() - 5; j++) {
+		int red = 210, green = 50, blue = 50;
+		for (int i = 6; i < bitmap.getWidth() - 3; i++) {
+			for (int j = 6; j < bitmap.getHeight() - 3; j++) {
 				int l = bitmap.getPixel(i, j);// 获取像素点上的agrb
 				int r = (l & 0x00ff0000) >> 16;// 取高两位(R)
 				int g = (l & 0x0000ff00) >> 8; // (G)
 				int b = (l & 0x000000ff);// 取低两位(B)
+				
 				if (r >= red && g < green && b < blue) {
-
-					for (int m = i; m < i + 5; m++) {
-						for (int n = j; n < j + 5; n++) {
+						int l3 = bitmap.getPixel(i-5, j-5);// 获取像素点上的agrb
+						int r3 = (l3 & 0x00ff0000) >> 16;// 取高两位(R)
+						int g3 = (l3 & 0x0000ff00) >> 8; // (G)
+						int b3 = (l3 & 0x000000ff);// 取低两位(B)
+					
+					for (int m = i; m < i + 3; m++) {
+						for (int n = j; n < j + 3; n++) {
 							int l2 = bitmap.getPixel(m, n);
 							int r2 = (l2 & 0x00ff0000) >> 16; // 取高两
 							int g2 = (l2 & 0x0000ff00) >> 8; // (G)
 							int b2 = (l2 & 0x000000ff);// 取低两位(B)
-							if (r2 >= red && g2 < green && b2 < blue) {
+							if (r2 >= red && g2 < green && b2 < blue && r3>=red&&g3>red&&b3>red) {
 								flag++;
 							} else {
 								break;
 							}
 						}
 					}
-					if (flag == 25) {
-						int k[] = { i + 2, j + 2 };
+					if (flag == 9) {
+						int k[] = { i + 1, j + 1 };
 						list.add(k);
 						if (list.size() == count) {
-							break;
+							return list;
 						}
 						i = i + 10;
 					}

@@ -310,7 +310,7 @@ public class PhotoManager implements OnClickListener {
 				}
 
 				photoActivity.finish();
-				Intent intent = new Intent(photoActivity, ShowPicActivity.class);
+				Intent intent = new Intent(photoActivity,ShowPicActivity.class);
 				if (mCameraId == 0) { // 说明刚刚打开了前置摄像头，下次打开后置摄像头
 					intent.putExtra(ConstValue.ExtruaKey.PhotoType.toString(),
 							ConstValue.ImgSourceType.front.toString());

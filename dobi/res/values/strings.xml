@@ -14,10 +14,13 @@
 	<string name="gridViewSize">24</string>
     <string name="deleteBtnWidth">200</string>
     <string name="deleteBtnHeight">100</string>
-    <string name="app_name">dobi</string>
+    <string name="app_name">dobi逗比</string>
     <string name="hello_world"></string>
     <string name="action_settings"></string>
     <string name="save">存储</string>
+    <string name="prop">道具</string>
+    <string name="scene">场景</string>
+    <string name="pet">宠物</string>
     <string name="share">分享</string>
     <string name="words">文字</string>
     <string name="delete">删除</string>

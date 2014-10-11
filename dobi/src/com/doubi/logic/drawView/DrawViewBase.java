@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.graphics.Bitmap.CompressFormat;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.FloatMath;
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 
+import com.doubi.common.CommonMethod;
 import com.doubi.common.ConstValue;
 import com.doubi.logic.ImageManager;
 import com.doubi.logic.ImageManager.RectangleManager;
@@ -31,7 +33,7 @@ public class DrawViewBase extends ImageView {
 	/**
 	 * 控件内道具以外所有图片集合
 	 */
-	protected Bmp[] mBmps;
+	public Bmp[] mBmps;
 	protected ImageManager mImageManager;
 
 	/**
@@ -89,11 +91,11 @@ public class DrawViewBase extends ImageView {
 	/**
 	 * 场景宽度
 	 */
-	protected int cjWidth;
+	protected static int cjWidth;
 	/**
 	 * 场景高度
 	 */
-	protected int cjHeight;
+	protected static int cjHeight;
 
 	/**
 	 * 计算放缩比例用
@@ -180,7 +182,6 @@ public class DrawViewBase extends ImageView {
 	 * @param event
 	 */
 	protected void order(float x, float y) {
-
 		Bmp temp = null;
 		for (int i = imgCount - 1; i > -1; i--) {
 
@@ -202,7 +203,9 @@ public class DrawViewBase extends ImageView {
 					}
 					temp.setPiority(imgCount - 1);
 					Begin = true;
-					Log.i("jiang", "选中");
+					if(CommonMethod.GetSingleOrMore()!=0){
+						
+ 					}
 					return;
 				}
 			}
@@ -275,7 +278,10 @@ public class DrawViewBase extends ImageView {
 	 * 
 	 * @param bm
 	 */
-	protected void selectMap(Bmp bm) {
+	public void selectMap(Bmp bm) {
+		if(bm==null){
+			return;
+		}
 		if (bm.canChange) {
 			for (Bmp mBmp : mBmps) {
 				if (mBmp != null && mBmp.isFocus()) {
@@ -289,6 +295,7 @@ public class DrawViewBase extends ImageView {
 			bm.setFocus(true);
 		}
 	}
+
 
 	/**
 	 * 取消当前选中图片的光圈

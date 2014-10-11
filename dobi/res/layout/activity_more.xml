@@ -17,7 +17,7 @@
         <com.doubi.logic.drawView.MoreSceneDrawView
             android:id="@+id/mMoreSceneDrawView"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
+            android:layout_height="fill_parent"/>
 		<!-- 
         <com.doubi.logic.drawView.MorePropDrawView
             android:id="@+id/mMorePropDrawView"
@@ -25,38 +25,7 @@
             android:layout_height="fill_parent"
             android:visibility="visible" />
 		-->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/transparent"
-            android:orientation="horizontal" >
-
-            <ImageButton
-                android:id="@+id/btnMain"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:background="@drawable/button_selector"
-                android:onClick="btnMainOnclick"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp"
-                android:src="@drawable/top" />
-
-            <Button
-                android:id="@+id/btnSave"
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/button_selector"
-                android:onClick="btnSaveOnclick"
-                android:text="@string/save" />
-
-            <Button
-                android:id="@+id/btnShare"
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/button_selector"
-                android:onClick="btnShareOnclick"
-                android:text="@string/share" />
-        </LinearLayout>
+       
     </FrameLayout>
 
     <include
@@ -75,26 +44,7 @@
         android:layout_alignParentRight="true"
         layout="@layout/control_more_prop"
         android:background="@color/translucent"
-        android:visibility="invisible" />
-
-    <include
-        android:id="@+id/pet"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_alignParentRight="true"
-        layout="@layout/control_more_pet"
-        android:background="@color/translucent"
-        android:visibility="invisible" />
-
-    <include
-        android:id="@+id/bubble"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_alignParentRight="true"
-        layout="@layout/control_more_bubble"
-        android:background="@color/translucent"
-        android:visibility="invisible" />
-
+        android:visibility="invisible"/>
     <RelativeLayout
         android:id="@+id/btnRelative"
         android:layout_width="50dp"
@@ -107,7 +57,14 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:orientation="vertical" >
-
+			  <ImageButton
+                android:id="@+id/btnMain"
+                android:layout_width="50dp"
+                android:layout_height="fill_parent"
+                android:background="@drawable/button_selector"
+                android:onClick="btnMainOnclick"
+                android:layout_weight="1"
+                android:src="@drawable/top" />
             <ImageButton
                 android:id="@+id/btnPhoto"
                 android:layout_width="50dp"
@@ -117,41 +74,41 @@
                 android:onClick="btnPhotoOnclick"
                 android:src="@drawable/photo" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/btnScene"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:background="@drawable/button_selector"
+                android:background="@android:color/transparent"
                 android:onClick="btnSceneOnclick"
-                android:text="@string/scene" />
+                android:src="@drawable/changjing"/>
 
-            <Button
+            <ImageButton
                 android:id="@+id/btnPropMore"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:background="@drawable/button_selector"
+                android:background="@android:color/transparent"
                 android:onClick="btnPropMoreOnclick"
-                android:text="@string/prop" />
+                android:src="@drawable/prop" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/btnPet"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:background="@drawable/button_selector"
-                android:onClick="btnPetOnclick"
-                android:text="@string/pet" />
+                android:onClick="btnSaveOnclick"
+                android:src="@drawable/save"/>
 
-            <Button
+            <ImageButton
                 android:id="@+id/btnText"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:background="@drawable/button_selector"
-                android:onClick="btnTextOnclick"
-                android:text="@string/words" />
+                android:onClick="btnShareOnclick"
+                android:src="@drawable/share" />
         </LinearLayout>
     </RelativeLayout>
 
@@ -182,7 +139,6 @@
             android:background="@layout/button_album">
         </ImageView>
     </LinearLayout>
-
     <ImageButton
         android:id="@+id/propDelMore"
         android:layout_width="wrap_content"

@@ -38,7 +38,7 @@ public class ShowPicActivity extends Activity {
 	// private final String SURE = "btnSure";
 	private ImageButton btnWeak, btnMedium, btnStrong;
 	private int moreIndex;
-
+	private Dialog dialog;
 	/**
 	 * Activity在创建的时候回调的函数 主要用来初始化一些变量
 	 */
@@ -57,7 +57,7 @@ public class ShowPicActivity extends Activity {
 		mTouchImageView.Inteligense(ShowPicActivity.this, cameraBitmap);
 		LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
 		View view = inflater.inflate(R.layout.dialog_tip, null);
-		final Dialog dialog=new Dialog(this, R.style.Translucent_NoTitle);        
+		dialog=new Dialog(this, R.style.Translucent_NoTitle);        
 	    dialog.setContentView(R.layout.dialog_tip);
 	    int height = (int) (CommonMethod.GetDensity(ShowPicActivity.this)*180+0.5);
 		int width = (int) (CommonMethod.GetDensity(ShowPicActivity.this)*200+0.5);
@@ -76,7 +76,8 @@ public class ShowPicActivity extends Activity {
 		    public void onClick(View v) {  
 		        dialog.dismiss();  
 		    }  
-	    });  
+	    });
+	    dialog.setCancelable(true);
 	    dialog.show(); 
 	}
 
@@ -104,7 +105,6 @@ public class ShowPicActivity extends Activity {
 	 */
 	public void setImageBitmap() {
 		String path = "";
-
 		path = Environment.getExternalStorageDirectory() + ConstValue.ROOT_PATH
 				+ ConstValue.ImgName.photo.toString() + "jpg";
 
@@ -146,21 +146,26 @@ public class ShowPicActivity extends Activity {
 
 			if (CommonMethod.GetSingleOrMore() != 0) {
 				moreIndex = this.getIntent().getIntExtra(
-						ConstValue.ExtruaKey.MoreFaceIndex.toString(), 1);
-				// path = Environment.getExternalStorageDirectory()
-				// + ConstValue.ROOT_PATH + ConstValue.MORE_CLIP_FACE
-				// + ConstValue.ImgName.morePhotoClip.toString() + index
-				// + ".jpg";
-
+						ConstValue.ExtruaKey.MoreFaceIndex.toString(), 0);
+				 path = Environment.getExternalStorageDirectory()
+				 + ConstValue.ROOT_PATH + ConstValue.MORE_CLIP_FACE+"photo"
+				 + "jpg";
+				 mFile = new File(path);
+				 if (mFile.exists()) {
+						cameraBitmap = mImageManager.getBitmapFromFile(mFile,
+								mTouchImageView.getWidth());
+					}
 			}
 		} else if (photoType.equals(ConstValue.ImgSourceType.front.toString())) {
 			int degree = CommonMethod.GetSharepreferenceValue(this,
 					ConstValue.SharepreferenceKey.CameraFrontDegree);
 			cameraBitmap = mImageManager.getNewDegreeMap(cameraBitmap, degree);
 		} else if (photoType.equals(ConstValue.ImgSourceType.back.toString())) {
-			int degree = CommonMethod.GetSharepreferenceValue(this,
-					ConstValue.SharepreferenceKey.CameraBackDegree);
-			cameraBitmap = mImageManager.getNewDegreeMap(cameraBitmap, degree);
+			if(cameraBitmap!=null){
+				int degree = CommonMethod.GetSharepreferenceValue(this,
+						ConstValue.SharepreferenceKey.CameraBackDegree);
+				cameraBitmap = mImageManager.getNewDegreeMap(cameraBitmap, degree);
+			}
 		}
 
 	}
@@ -189,13 +194,9 @@ public class ShowPicActivity extends Activity {
 		mClipImgView.setMoreIndex(moreIndex);
 		mClipImgView.SetBitmap(mTouchImageView.CreatNewPhoto());
 		mClipImgView.invalidate();
-		Intent intent = new Intent(ShowPicActivity.this,
-				SingleActivity.class);
-		ShowPicActivity.this.startActivity(intent);
-		if(cameraBitmap!=null){
-			cameraBitmap.recycle();
-		}
-		
+//		Intent intent = new Intent(ShowPicActivity.this,
+//				SingleActivity.class);
+//		ShowPicActivity.this.startActivity(intent);
 //		if (CommonMethod.GetSingleOrMore() == 0) {
 //			Intent intent = new Intent(ShowPicActivity.this,
 //					SingleActivity.class);
@@ -213,15 +214,17 @@ public class ShowPicActivity extends Activity {
 					SingleActivity.class);
 			ShowPicActivity.this.startActivity(intent1);
 		} else if (CommonMethod.GetSingleOrMore() == 1) {
-
+			Intent intent2 = new Intent(ShowPicActivity.this, MoreActivity.class);
+			ShowPicActivity.this.startActivity(intent2);
 		} else if (CommonMethod.GetSingleOrMore() == 2) {
 			CommonMethod.SetSingleOrMore(1);
 			Intent intent2 = new Intent(ShowPicActivity.this, MoreActivity.class);
 			ShowPicActivity.this.startActivity(intent2);
 		}
+		if(cameraBitmap!=null){
+			cameraBitmap.recycle();
+		}
 		this.finish();
-
-		
 	}
 
 	/**
@@ -339,7 +342,13 @@ public class ShowPicActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 		ExitAppUtils.getInstance().delActivity(this);
+	    if(dialog!=null&&dialog.isShowing()){
+	    	dialog.dismiss();
+	    }
 		super.onDestroy();
 	}
 
+	
+	
+	  
 }

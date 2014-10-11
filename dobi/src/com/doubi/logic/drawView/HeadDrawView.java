@@ -67,11 +67,25 @@ public class HeadDrawView extends SingleDrawViewBase {
 
 			.getExternalStorageDirectory() + ConstValue.ROOT_PATH
 					+ ConstValue.DEFAULT_CLOTHES_PATH);
-			Bitmap bodyBitmap = bodyList.get(0);
+			Bitmap bodyBitmap;
+			
+			if(bodyList.size()==1){
+				bodyBitmap = bodyList.get(0);
+			}else{
+				bodyBitmap = bodyList.get(new Random().nextInt(bodyList.size()));
+			}
+			
+			
 			List<Bitmap> hairlList = mImageManager.GetAllBitmaps(Environment
 			.getExternalStorageDirectory() + ConstValue.ROOT_PATH
 					+ ConstValue.DEFAULT_HAIR_PATH);
-			Bitmap hairBitmap = hairlList.get(0);
+			Bitmap hairBitmap;
+			if(hairlList.size()==1){
+				hairBitmap = hairlList.get(0);
+			}else{
+				hairBitmap = hairlList.get(new Random().nextInt(hairlList.size()));
+			}
+			
 			// 计算脸部合适宽度，计算放缩比例，同比例处理其他图片
 			scale = (cj_width / SCALE_PRE) / ConstValue.FACE_BASE_WIDTH;// 整体放缩比例
 			// 正比调整发饰相对衣服的Y坐标

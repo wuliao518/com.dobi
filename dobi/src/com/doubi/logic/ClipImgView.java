@@ -29,12 +29,10 @@ public class ClipImgView extends ImageView {
 	private Bitmap roundConcerImage;
 	private ImageManager mImageManager;
 	private int moreIndex; // 多人扮演正在修改的头像
-
 	public ClipImgView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		mImageManager = new ImageManager();
 	}
-
 	/**
 	 * 设置被剪切的图片
 	 * 
@@ -43,11 +41,10 @@ public class ClipImgView extends ImageView {
 	public void SetBitmap(Bitmap mBitmap) {
 		roundConcerImage = mBitmap;
 	}
-
 	public void setMoreIndex(int moreIndex) {
 		this.moreIndex = moreIndex;
 	}
-
+	
 	@SuppressLint("DrawAllocation")
 	@Override
 	protected void onDraw(Canvas canvas) {
@@ -79,7 +76,6 @@ public class ClipImgView extends ImageView {
 		if (!mPath.isEmpty()) {
 			canvas.clipPath(mPath, Region.Op.REPLACE);
 		}
-
 		if (roundConcerImage != null) {
 			// 保存
 			try {

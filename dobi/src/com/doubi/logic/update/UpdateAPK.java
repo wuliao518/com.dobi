@@ -142,6 +142,7 @@ public class UpdateAPK {
 				break;
 			case DOWN_OVER:
 				mainActivity.into(true);
+				CommonMethod.CloseDialog();
 				break;
 			default:
 				break;
@@ -158,7 +159,6 @@ public class UpdateAPK {
 
 	// 获取本地软件版本号
 	int loadversion = 0;
-
 	/**
 	 * 检查当前更新信息
 	 */
@@ -182,10 +182,7 @@ public class UpdateAPK {
 		}else if(imageVersion==0){
 			mainActivity.into(false);
 		}
-		
-		
 	}
-
 	/**
 	 * 获取JSON数据
 	 */
@@ -201,7 +198,6 @@ public class UpdateAPK {
 				String[] m = (String[]) msg.obj;
 				showNoticeDialog(m[0], m[1], m[2]);
 			}
-
 		};
 		// 图片素材Handler
 		final Handler updateHandler = new Handler() {
@@ -214,7 +210,6 @@ public class UpdateAPK {
 		};
 		// 下载apk文件
 		new Thread(new Runnable() {
-
 			@Override
 			public void run() {
 				try {
@@ -247,9 +242,6 @@ public class UpdateAPK {
 						updateHandler.sendMessage(msg);
 					} else {
 						mainActivity.into(true);
-						// Intent intent = new Intent(mActivity,
-						// HomeActivity.class);
-						// mActivity.startActivity(intent);
 					}
 
 				} catch (JSONException e) {
@@ -665,9 +657,6 @@ public class UpdateAPK {
 					break;
 				case 6:
 					FileWrite();// 向文件中写入当前素材版本号
-					// Intent intent = new Intent(mActivity,
-					// HomeActivity.class);
-					// mActivity.startActivity(intent);
 					CommonMethod.CloseDialog();
 					break;
 				}

@@ -49,10 +49,10 @@ public class ConstValue {
 
 	public static final String MORE_CLIP_FACE = "moerClipFace/";// 多人扮演剪切脸部用
 
+	//public static final String VERSION_URL = "http://www.do-bi.cn/ver.txt";
 	public static final String VERSION_URL = "http://download.d-bi.cn/Version.txt";
 	// public static final String VERSION_URL =
 	// "http://192.168.1.11:8081/Version.txt";
-
 	/**
 	 * 截图后脸部尺寸 0: 宽，1：高. 上海截图标准为95, 140.如果宽高不合适，宽度为标准
 	 */

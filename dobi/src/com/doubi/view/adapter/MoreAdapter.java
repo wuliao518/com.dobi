@@ -8,6 +8,7 @@ import java.util.TimerTask;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout.LayoutParams;
+import android.widget.Toast;
 
 import com.dobi.R;
 import com.doubi.common.ConstValue;
@@ -31,6 +33,7 @@ import com.doubi.logic.ImageManager;
 import com.doubi.logic.drawView.MoreDrawViewBase;
 import com.doubi.logic.drawView.MoreSceneDrawView;
 import com.doubi.logic.update.MyDialog;
+import com.doubi.view.MoreActivity;
 import com.doubi.view.adapter.item.MoreFaceItem;
 import com.doubi.view.adapter.item.MapItem;
 
@@ -145,7 +148,7 @@ public class MoreAdapter extends BaseAdapter {
 		if (currentStage == ConstValue.Stage.Scene && sceneData != null
 				&& sceneData.size() > 0) {
 			File file = new File(sceneData.get(position).getImgPath() + "/" + 0
-					+ ".jpg");
+					+ "jpg");
 			mBitmap = mImageManager.getBitmapFromFile(file, 150);
 			// InitiallyBitmap = mImageManager.getBitmapFromFile(file); 不需要保存
 		}
@@ -247,13 +250,15 @@ public class MoreAdapter extends BaseAdapter {
 				linear.setVisibility(View.GONE);
 				mSceneDrawView = (MoreSceneDrawView) drawView;
 				mSceneDrawView.updateScene(mSceneItem.getImgPath());
-
+				mSceneDrawView.updateFaces(true);
+				MoreActivity.scenePaht=mSceneItem.getImgPath();
 				FrameLayout view = (FrameLayout) mActivity
 						.findViewById(R.id.drawViewFrameLayout);
 
 				int count = view.getChildCount();
-				view.removeViews(3, count - 3);
-
+				if(count>=2){
+					view.removeViews(1, count-1);
+				}
 				for (final MoreFaceItem mMoreFaceItem : mSceneDrawView
 						.getMoreFaceItems()) {
 					int[] c = mMoreFaceItem.getLocation();
@@ -289,9 +294,11 @@ public class MoreAdapter extends BaseAdapter {
 									(int) (resourceWidth * 2.5f), resourceWidth);
 							params2.setMargins(d[0] - params2.width / 2, d[1]
 									+ params2.height / 2, 0, 0);
+							linear.setTag(mMoreFaceItem.getIndex());
 							linear.setLayoutParams(params2);
 							linear.setVisibility(View.VISIBLE);
 							mMoreFaceItem.setHangest(true);
+							mSceneDrawView.selectMap(mSceneDrawView.mBmps[mMoreFaceItem.getIndex()*2]);
 						}
 					});
 					mMoreFaceItem.setmButton(head);
@@ -384,5 +391,6 @@ public class MoreAdapter extends BaseAdapter {
 
 		}
 	}
+	
 
 }

@@ -1,17 +1,22 @@
 package com.doubi.view;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.ContentResolver;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,12 +26,15 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
+import android.provider.MediaStore;
+import android.view.Display;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewTreeObserver;
@@ -34,15 +42,15 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
-import android.widget.Button;
+import android.widget.GridView;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
-import cn.sharesdk.framework.ShareSDK;
-import cn.sharesdk.onekeyshare.OnekeyShare;
+import android.widget.Toast;
 
 import com.dobi.R;
 import com.doubi.common.CommonMethod;
@@ -50,12 +58,29 @@ import com.doubi.common.ConstValue;
 import com.doubi.exception.ExitAppUtils;
 import com.doubi.logic.ImageManager;
 import com.doubi.logic.LogicMore;
+import com.doubi.logic.drawView.BodyDrawView;
+import com.doubi.logic.drawView.HairDrawView;
+import com.doubi.logic.drawView.HeadDrawView;
 import com.doubi.logic.drawView.MoreDrawViewBase;
 import com.doubi.logic.drawView.MoreSceneDrawView;
+import com.doubi.logic.drawView.PropDrawView;
+import com.doubi.logic.drawView.SceneDrawView;
+import com.doubi.logic.drawView.SingleDrawViewBase;
+import com.doubi.logic.svgResolve.SVG;
 import com.doubi.view.adapter.MoreAdapter;
-import com.doubi.view.adapter.item.MoreFaceItem;
+import com.doubi.view.adapter.SingleAdapter;
 import com.doubi.view.adapter.item.MapItem;
+import com.doubi.view.adapter.item.MoreFaceItem;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.common.message.Log;
+
+
+import com.umeng.socialize.controller.UMServiceFactory;
+import com.umeng.socialize.controller.UMSocialService;
+import com.umeng.socialize.weixin.controller.UMWXHandler;
+import com.umeng.socialize.weixin.media.CircleShareContent;
+import com.umeng.socialize.weixin.media.WeiXinShareContent;
+
 
 @SuppressLint("HandlerLeak")
 public class MoreActivity extends Activity {
@@ -72,10 +97,10 @@ public class MoreActivity extends Activity {
 	private ImageView btnCamera;// 弹出框里的相机按钮
 	private ImageView btnPhoto;// 弹出框里的相册按钮
 
-	private Button btnScene;
-	private Button btnProp;
-	private Button btnPet;
-	private Button btnText;
+	private ImageButton btnScene;
+	private ImageButton btnProp;
+	private ImageButton btnPet;
+	private ImageButton btnText;
 
 	private ListView sceneListView, propListView, petListView, bubbleListView;
 
@@ -85,6 +110,11 @@ public class MoreActivity extends Activity {
 	private LinearLayout unitScene, unitProp, unitPet, unitText;// 化妆，装扮
 	private Animation translateLeft, translateRight, translateLeft2,
 			translateRight2;// 动画
+	
+	
+	// 首先在您的Activity中添加如下成员变量
+		final UMSocialService mController = UMServiceFactory.getUMSocialService("com.umeng.share");
+		//com.umeng.socialize.controller.UMSocialService
 
 	// 自定义气泡图形
 	private Bitmap selfBubble;
@@ -124,12 +154,11 @@ public class MoreActivity extends Activity {
 	private int currentPage = 1;
 	private int type;
 	private View CC;
-
+	private int index;
 	/**
 	 * 场景图片所在地址
 	 */
-	private String scenePaht = "";
-	private boolean isSelectPicture;
+	public static String scenePaht = "";
 
 	@SuppressLint({ "NewApi", "ClickableViewAccessibility" })
 	@Override
@@ -137,7 +166,6 @@ public class MoreActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		ExitAppUtils.getInstance().addActivity(this);
 		setContentView(R.layout.activity_more);
-		ShareSDK.initSDK(this);
 		Log.d("myLog", "onCreate()");
 
 		propDelete = (ImageButton) findViewById(R.id.propDelMore);
@@ -206,38 +234,35 @@ public class MoreActivity extends Activity {
 			}
 		});
 
-		btnProp = (Button) this.findViewById(R.id.btnPropMore);
-		btnScene = (Button) this.findViewById(R.id.btnScene);
-		btnPet = (Button) this.findViewById(R.id.btnPet);
-		btnText = (Button) this.findViewById(R.id.btnText);
+		btnProp = (ImageButton) this.findViewById(R.id.btnPropMore);
+		btnScene = (ImageButton) this.findViewById(R.id.btnScene);
+		btnPet = (ImageButton) this.findViewById(R.id.btnPet);
+		btnText = (ImageButton) this.findViewById(R.id.btnText);
 		// 对listview进行监听处理
 		sceneListView = (ListView) findViewById(R.id.sceneListView);
 		propListView = (ListView) findViewById(R.id.propListView);
-		petListView = (ListView) findViewById(R.id.petListView);
-		bubbleListView = (ListView) findViewById(R.id.bubbleListView);
+		petListView = (ListView) findViewById(R.id.propListView);
+		bubbleListView = (ListView) findViewById(R.id.propListView);
 		sceneListView.setOnScrollListener(new LvScrollEvent());
 		propListView.setOnScrollListener(new LvScrollEvent());
 		petListView.setOnScrollListener(new LvScrollEvent());
 		bubbleListView.setOnScrollListener(new LvScrollEvent());
-
-		// 初始化默认场景
-		String imgRootPaht = Environment.getExternalStorageDirectory()
-				+ ConstValue.ROOT_PATH + ConstValue.MORE_SCENE_PATH
-				+ ConstValue.MORE_SCENE_DEFAULT;
-		List<String> sceneList = mImageManager.getAllFoders(imgRootPaht);
-		if (sceneList.size() > 0) {
-			Random random = new Random();
-			scenePaht = sceneList.get(random.nextInt(sceneList.size()));
+		
+		if(scenePaht==""){
+			// 初始化默认场景
+			String imgRootPaht = Environment.getExternalStorageDirectory()
+					+ ConstValue.ROOT_PATH + ConstValue.MORE_SCENE_PATH
+					+ ConstValue.MORE_SCENE_DEFAULT;
+			List<String> sceneList = mImageManager.getAllFoders(imgRootPaht);
+			if (sceneList.size() > 0) {
+				scenePaht = sceneList.get(0);
+			}
 		}
 		unitScene = (LinearLayout) this.findViewById(R.id.moreScene);
 		unitProp = (LinearLayout) this.findViewById(R.id.prop);
-		unitPet = (LinearLayout) this.findViewById(R.id.pet);
-		unitText = (LinearLayout) this.findViewById(R.id.bubble);
 		intAnimation();
-
 		linear = (LinearLayout) this.findViewById(R.id.cameraWidget);
 		btnCamera = (ImageView) linear.findViewById(R.id.cameraButton);
-
 		btnPhoto = (ImageView) linear.findViewById(R.id.photoButton);
 		// 气泡文字的bitmap
 		InputStream it = getResources().openRawResource(R.drawable.bubbletext);
@@ -245,14 +270,25 @@ public class MoreActivity extends Activity {
 		btnCamera.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(MoreActivity.this,
-						PhotoActivity.class);
-				MoreActivity.this.startActivity(intent);
+				index=(Integer) linear.getTag();
+				Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+				Uri mOutPutFileUri;
+				//文件夹doubi/moerClipFace
+				String path = Environment.getExternalStorageDirectory().toString()+"/doubi/moerClipFace";
+				File path1 = new File(path);
+				if(!path1.exists()){
+					path1.mkdirs();
+				}
+				File file = new File(path1,"photo"+"jpg");
+				mOutPutFileUri = Uri.fromFile(file);
+				intent.putExtra(MediaStore.EXTRA_OUTPUT, mOutPutFileUri);
+				startActivityForResult(intent,0);
 			}
 		});
 		btnPhoto.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				index=(Integer) linear.getTag();
 				Intent intent = new Intent();
 				/* 开启Pictures画面Type设定为image */
 				intent.setType("image/*");
@@ -261,8 +297,6 @@ public class MoreActivity extends Activity {
 				/* 取得相片后返回本画面 */
 				startActivityForResult(intent, 1);
 				// MoreActivity.this.startActivity(intent);
-
-				isSelectPicture = true;
 			}
 		});
 
@@ -344,7 +378,6 @@ public class MoreActivity extends Activity {
 							getLastVisiblePosition = view
 									.getLastVisiblePosition();
 							lastVisiblePositionY = y;
-							Log.v("触发哪个", "这一个。。。");
 							return;
 						} else if (view.getLastVisiblePosition() == getLastVisiblePosition
 								&& lastVisiblePositionY == y
@@ -353,17 +386,14 @@ public class MoreActivity extends Activity {
 							currentPage++;
 							new processImageTask(MoreActivity.this.type)
 									.execute();
-							Log.v("啊哈哈哈", "滑动拉" + currentPage);
 						}
 					} else if (view.getFirstVisiblePosition() == 0) {
 						if (currentPage == 1) {
 							currentPage = 1;
-							Log.v("场景停止", "场景停止没》》》》" + currentPage);
 						} else {
 							currentPage--;
 							new processImageTask(MoreActivity.this.type)
 									.execute();
-							Log.v("场景下滑", "值：" + currentPage);
 						}
 
 					}
@@ -390,7 +420,6 @@ public class MoreActivity extends Activity {
 							getLastVisiblePosition = view
 									.getLastVisiblePosition();
 							lastVisiblePositionY = y;
-							Log.v("触发哪个", "这一个。。。");
 							return;
 						} else if (view.getLastVisiblePosition() == getLastVisiblePosition
 								&& lastVisiblePositionY == y
@@ -400,17 +429,14 @@ public class MoreActivity extends Activity {
 							currentPage++;
 							new processImageTask(MoreActivity.this.type)
 									.execute();
-							Log.v("啊哈哈哈", "滑动拉" + currentPage);
 						}
 					} else if (view.getFirstVisiblePosition() == 0) {
 						if (currentPage == 1) {
 							currentPage = 1;
-							Log.v("场景停止", "场景停止没》》》》" + currentPage);
 						} else {
 							currentPage--;
 							new processImageTask(MoreActivity.this.type)
 									.execute();
-							Log.v("场景下滑", "值：" + currentPage);
 						}
 
 					}
@@ -431,12 +457,7 @@ public class MoreActivity extends Activity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		if (!isSelectPicture) {
-			// 重新拍照或选择照片后执行
-			mMoreSceneDrawView.updateFaces(false);
-		} else {
-			isSelectPicture = false;
-		}
+		mMoreSceneDrawView.updateFaces(false);
 	}
 
 	@Override
@@ -687,8 +708,6 @@ public class MoreActivity extends Activity {
 		// 隐藏相应控件
 		unitScene.setVisibility(View.GONE);
 		unitProp.setVisibility(View.GONE);
-		unitPet.setVisibility(View.GONE);
-		unitText.setVisibility(View.GONE);
 
 		flagScene = true;
 		flagProp = true;
@@ -718,7 +737,6 @@ public class MoreActivity extends Activity {
 	 */
 	private void invisibilityDrawview() {
 		mMoreSceneDrawView.setVisibility(View.GONE);
-		// mMorePropDrawView.setVisibility(View.GONE);
 	}
 
 	/**
@@ -727,20 +745,78 @@ public class MoreActivity extends Activity {
 	 * @param v
 	 */
 	public void btnPhotoOnclick(View v) {
-		List<MoreFaceItem> list = mMoreSceneDrawView.getMoreFaceItems();
-		boolean isFull = true;
-		for (MoreFaceItem mMoreFaceItem : list) {
-			if (mMoreFaceItem.getmBitmap() == null) {
-				mMoreFaceItem.setHangest(true);
-				isFull = false;
-				break;
+//		List<MoreFaceItem> list = mMoreSceneDrawView.getMoreFaceItems();
+//		boolean isFull = true;
+//		for (MoreFaceItem mMoreFaceItem : list) {
+//			if (mMoreFaceItem.getmBitmap() == null) {
+//				mMoreFaceItem.setHangest(true);
+//				isFull = false;
+//				break;
+//			}
+//		}
+//		if (isFull) {
+//			list.get(0).setHangest(true);
+//		}
+//		Intent intent = new Intent(this, PhotoActivity.class);
+//		this.startActivity(intent);
+		final Dialog note;
+		RelativeLayout relativeLayout;
+		// 渲染布局，获取相应控件
+		LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
+		View view = inflater.inflate(R.layout.window_pop, null);
+		ImageButton one=(ImageButton)view.findViewById(R.id.xiangji);
+		ImageButton two=(ImageButton)view.findViewById(R.id.xiangce);
+		relativeLayout=(RelativeLayout) view.findViewById(R.id.rl_layout);
+		// 获取progress控件的宽高
+		int height = (int) (CommonMethod.GetDensity(MoreActivity.this)*180+0.5);
+		int width = (int) (CommonMethod.GetDensity(MoreActivity.this)*200+0.5);
+		// 新建Dialog
+		note = new Dialog(this, R.style.Translucent_NoTitle);
+		// note.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		LayoutParams params = new LayoutParams(width, height);
+		// 设置对话框大小（不好用）
+		WindowManager.LayoutParams params1 = note.getWindow().getAttributes();
+		params1.width = width;
+		params1.height = height;
+		params1.x = 0;
+		params1.y = 0;
+		note.getWindow().setAttributes(params1);
+		note.addContentView(view, params);
+		note.show();
+		one.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				note.dismiss();
+				index=0;
+				Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+				Uri mOutPutFileUri;
+				//文件夹doubi/moerClipFace
+				String path = Environment.getExternalStorageDirectory().toString()+"/doubi/moerClipFace";
+				File path1 = new File(path);
+				if(!path1.exists()){
+					path1.mkdirs();
+				}
+				File file = new File(path1,"photo"+"jpg");
+				mOutPutFileUri = Uri.fromFile(file);
+				intent.putExtra(MediaStore.EXTRA_OUTPUT, mOutPutFileUri);
+				startActivityForResult(intent, 0);
 			}
-		}
-		if (isFull) {
-			list.get(0).setHangest(true);
-		}
-		Intent intent = new Intent(this, PhotoActivity.class);
-		this.startActivity(intent);
+		});
+		two.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				note.dismiss();
+				index=0;
+				Intent intent = new Intent();
+				/* 开启Pictures画面Type设定为image */
+				intent.setType("image/*");
+				/* 使用Intent.ACTION_GET_CONTENT这个Action */
+				intent.setAction(Intent.ACTION_GET_CONTENT);
+				/* 取得相片后返回本画面 */
+				startActivityForResult(intent, 1);
+			}
+		});
+		
 	}
 
 	/**
@@ -802,25 +878,10 @@ public class MoreActivity extends Activity {
 	 */
 	public void btnShareOnclick(View v) throws IOException {
 
-		// Bitmap tempBitmap = this.getSaveMap();
-		// mImageManager.saveToSDCard(tempBitmap,
-		// ConstValue.ImgName.moreShareImg);
-		// Intent shareIntent = new Intent(Intent.ACTION_SEND);
-		// File file = new File(Environment.getExternalStorageDirectory()
-		// + ConstValue.ROOT_PATH
-		// + ConstValue.ImgName.moreShareImg.toString() + ".png");
-		// shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
-		//
-		// shareIntent.putExtra("notif_icon", R.drawable.ic_launcher);
-		// shareIntent.putExtra("notif_title",
-		// getBaseContext().getString(R.string.app_name));
-		// shareIntent.putExtra("comment",
-		// getBaseContext().getString(R.string.share));
-		// shareIntent.setType("image/jpeg");
-		// this.startActivity(Intent.createChooser(shareIntent,
-		// this.getTitle()));
-
-		showShare();
+		 Bitmap tempBitmap = this.getSaveMap();
+		 mImageManager.saveToSDCard(tempBitmap,
+		 ConstValue.ImgName.moreShareImg);
+		 showShare();
 	}
 
 	// ===============================场景=======start====================================
@@ -828,6 +889,8 @@ public class MoreActivity extends Activity {
 	 * 场景按钮，进入闺蜜时代系列
 	 */
 	public void btnSceneOnclick(View v) {
+		cancleAll();
+		btnScene.setImageDrawable(getResources().getDrawable(R.drawable.changjing_bk));
 		if (flagScene) {
 			MoreDrawViewBase.CurrentStage = ConstValue.Stage.Scene;
 			unitScene.setVisibility(View.VISIBLE);
@@ -929,6 +992,8 @@ public class MoreActivity extends Activity {
 	 * 道具按钮，进入道具设置
 	 */
 	public void btnPropMoreOnclick(View v) {
+		cancleAll();
+		btnProp.setImageDrawable(getResources().getDrawable(R.drawable.prop_bk));
 		if (flagProp) {
 			// if (MoreDrawViewBase.CurrentStage == ConstValue.Stage.Prop) {
 			// mMorePropDrawView.Inteligense(MoreActivity.this, stageWidth,
@@ -949,7 +1014,10 @@ public class MoreActivity extends Activity {
 			unitProp.startAnimation(translateRight2);
 		}
 	}
-
+	
+	public void btnDaojuOnclick(View v){
+		loadPropToList();
+	}
 	private void loadPropToList() {
 		filepath = Environment.getExternalStorageDirectory()
 				+ ConstValue.ROOT_PATH + ConstValue.PROP_PATH
@@ -964,23 +1032,24 @@ public class MoreActivity extends Activity {
 	 * @param v
 	 */
 	public void btnPetOnclick(View v) {
-		if (flagPet) {
+		cancleAll();
+		//if (flagPet) {
 			// mMorePropDrawView.Inteligense(MoreActivity.this, stageWidth,
 			// stageHeight);
 			// mMorePropDrawView.invalidate();
-			MoreDrawViewBase.CurrentStage = ConstValue.Stage.Prop;
-			PropStage = 2;
+			//MoreDrawViewBase.CurrentStage = ConstValue.Stage.Prop;
+			//PropStage = 2;
 			// invisibilityDrawview();
 			// mMorePropDrawView.setVisibility(View.VISIBLE);
 
-			unitPet.setVisibility(View.VISIBLE);
-			unitPet.setAnimation(translateLeft2);
-			unitPet.startAnimation(translateLeft2);
+			//unitPet.setVisibility(View.VISIBLE);
+			//unitPet.setAnimation(translateLeft2);
+			//unitPet.startAnimation(translateLeft2);
 			loadPetToList();
-		} else {
-			unitPet.setAnimation(translateRight2);
-			unitPet.startAnimation(translateRight2);
-		}
+		//} else {
+			//unitPet.setAnimation(translateRight2);
+			//unitPet.startAnimation(translateRight2);
+		//}
 	}
 
 	private void loadPetToList() {
@@ -997,23 +1066,29 @@ public class MoreActivity extends Activity {
 	 * @param v
 	 */
 	public void btnTextOnclick(View v) {
-		if (flagText) {
-			// mMorePropDrawView.Inteligense(MoreActivity.this, stageWidth,
-			// stageHeight);
-			// mMorePropDrawView.invalidate();
-			MoreDrawViewBase.CurrentStage = ConstValue.Stage.Prop;
-			PropStage = 3;
-			// invisibilityDrawview();
-			// mMorePropDrawView.setVisibility(View.VISIBLE);
-
-			unitText.setVisibility(View.VISIBLE);
-			unitText.setAnimation(translateLeft2);
-			unitText.startAnimation(translateLeft2);
+		cancleAll();
+//		if (flagText) {
+//			// mMorePropDrawView.Inteligense(MoreActivity.this, stageWidth,
+//			// stageHeight);
+//			// mMorePropDrawView.invalidate();
+//			MoreDrawViewBase.CurrentStage = ConstValue.Stage.Prop;
+//			PropStage = 3;
+//			// invisibilityDrawview();
+//			// mMorePropDrawView.setVisibility(View.VISIBLE);
+//
+//			//unitText.setVisibility(View.VISIBLE);
+//			//unitText.setAnimation(translateLeft2);
+//			//unitText.startAnimation(translateLeft2);
 			loadBubbleToList();
-		} else {
-			unitText.setAnimation(translateRight2);
-			unitText.startAnimation(translateRight2);
-		}
+//		} else {
+//			//unitText.setAnimation(translateRight2);
+//			//unitText.startAnimation(translateRight2);
+//		}
+	}
+
+	private void cancleAll() {
+		btnScene.setImageDrawable(getResources().getDrawable(R.drawable.changjing));
+		btnProp.setImageDrawable(getResources().getDrawable(R.drawable.prop));
 	}
 
 	private void loadBubbleToList() {
@@ -1102,8 +1177,8 @@ public class MoreActivity extends Activity {
 
 			else if (!filepath.equals("")
 					&& MoreDrawViewBase.CurrentStage == ConstValue.Stage.Prop) {
-				// mData = mImageManager.GetCurrentDatas(filepath, currentPage,
-				// pageSize, ".png");
+				// mData = mImageManager.GetCurrentDatas(filepath, currentPage, pageSize, ".png",50);
+				mData = mImageManager.GetAllBitmaps(filepath);
 			}
 			return null;
 		}
@@ -1213,89 +1288,76 @@ public class MoreActivity extends Activity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (resultCode == RESULT_OK) {
-			Uri uri = data.getData();
-			ContentResolver cr = this.getContentResolver();
-			try {
-				Bitmap bitmap = BitmapFactory.decodeStream(cr
-						.openInputStream(uri));
-				if (bitmap != null && bitmap.getWidth() > 800) {
-					bitmap = mImageManager.getNewSizeMap(bitmap, 800);
-				}
-				// 获取正在给哪张脸拍照
-				int index = 0;
-				List<MoreFaceItem> list = MoreSceneDrawView.GetMoreFaceItems();
-				if (list != null && list.size() != 0) {
-					for (MoreFaceItem mMoreFaceItem : list) {
-						if (mMoreFaceItem.isHangest()) {
-							index = mMoreFaceItem.getIndex();
-							break;
-						}
-					}
-				}
+		
+		if(resultCode==Activity.RESULT_CANCELED){
+			
+		}else{
+			switch (requestCode) {  
+	         case 0:  
+	        	 Intent intent1 = new Intent(this, ShowPicActivity.class);
+	        	 intent1.putExtra(ConstValue.ExtruaKey.PhotoType.toString(),
+	        			 ConstValue.ImgSourceType.select.toString());
+	        	 intent1.putExtra(ConstValue.ExtruaKey.MoreFaceIndex.toString(),index);
+	        	 
+				 this.startActivity(intent1);
+	             break;  
+	         case 1:  
+	        	Uri uri = data.getData();
+	 			ContentResolver cr = this.getContentResolver();
+	 			try {
+	 				BitmapFactory.Options options=new BitmapFactory.Options();
+	 				options.inJustDecodeBounds=true;
+	 				Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri),null,options);
+	 				int scale=1;
+	 				float bitWidth=options.outWidth;
+	 				float bitHeight=options.outHeight;
+	 				WindowManager wm=(WindowManager) getSystemService("window");
+	 				Display display=wm.getDefaultDisplay();
+	 				float width=display.getWidth()*1.5f;
+	 				float height=display.getHeight()*1.5f;
+	 				float scaleX=(float)bitWidth/width;
+	 				float scaleY=(float)bitHeight/height;
+	 				scale=(int) Math.max(scaleX,scaleY);
+	 				if(scale>1){
+	 					options.inJustDecodeBounds=false;
+	 					options.inSampleSize=scale;
+	 					bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri),null,options);
+	 				}else{
+	 					options.inJustDecodeBounds=false;
+	 					options.inSampleSize=1;
+	 					bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri),null,options);
+	 				}
+	 				
+	 				ImageManager mImageManager = new ImageManager();
+	 				try {
+	 					mImageManager.saveToSDCard(ConstValue.MORE_CLIP_FACE, bitmap, "photo", Bitmap.CompressFormat.JPEG);
+	 				} catch (IOException e) {
+	 					bitmap.recycle();
+	 					e.printStackTrace();
+	 				}
 
-				// try {
-				// mImageManager.saveToSDCard(ConstValue.MORE_CLIP_FACE,
-				// bitmap, ConstValue.ImgName.morePhotoClip.toString()
-				// + index, Bitmap.CompressFormat.JPEG);
-				// } catch (IOException e) {
-				// e.printStackTrace();
-				// }
+	 				Intent intent = new Intent(this, ShowPicActivity.class);
+	 				intent.putExtra(ConstValue.ExtruaKey.PhotoType.toString(),
+	 						ConstValue.ImgSourceType.select.toString());
+	 				intent.putExtra(ConstValue.ExtruaKey.MoreFaceIndex.toString(),index);
+	 				this.startActivity(intent);
+	 				bitmap.recycle();
 
-				try {
-					mImageManager
-							.saveToSDCard(bitmap, ConstValue.ImgName.photo);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+	 			} catch (FileNotFoundException e) {
 
-				Intent intent = new Intent(MoreActivity.this,
-						ShowPicActivity.class);
-				intent.putExtra(ConstValue.ExtruaKey.PhotoType.toString(),
-						ConstValue.ImgSourceType.select.toString());
-				intent.putExtra(ConstValue.ExtruaKey.MoreFaceIndex.toString(),
-						index);
-				MoreActivity.this.startActivity(intent);
-
-			} catch (FileNotFoundException e) {
-
+	 			}
+	             break;  
 			}
+			
 		}
-		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	private void showShare() {
-		ShareSDK.initSDK(this);
-		OnekeyShare oks = new OnekeyShare();
-			// 关闭sso授权
-		//oks.disableSSOWhenAuthorize();
-			// 分享时Notification的图标和文字
-		oks.setNotification(R.drawable.ic_launcher,
-				getString(R.string.app_name));
-			// title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-		oks.setTitle(getString(R.string.share));
-			// titleUrl是标题的网络链接，仅在人人网和QQ空间使用
-		oks.setTitleUrl("http://www.do-bi.cn");
-			// text是分享文本，所有平台都需要这个字段
-		oks.setText("我是分享文本");
-			// imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-		oks.setImagePath(Environment.getExternalStorageDirectory()
-				+ ConstValue.ROOT_PATH
-				+ ConstValue.ImgName.resultImg.toString() + ".jpg");
-			// url仅在微信（包括好友和朋友圈）中使用
-		oks.setUrl("http://www.do-bi.cn");
-			// comment是我对这条分享的评论，仅在人人网和QQ空间使用
-		oks.setComment("我是测试评论文本");
-			// site是分享此内容的网站名称，仅在QQ空间使用
-		oks.setSite(getString(R.string.app_name));
-		// siteUrl是分享此内容的网站地址，仅在QQ空间使用
-		oks.setSiteUrl("http://www.do-bi.cn");
-		// oks.setDialogMode();设置分享编辑界面为窗口模式
-
-		// 启动分享GUI
-		oks.show(this);
-
+		
+		// 是否只有已登录用户才能打开分享选择页
+        mController.openShare(MoreActivity.this, false);
+		
+		
 	}
 	@Override
 	protected void onDestroy() {

@@ -14,6 +14,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.os.Environment;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.ImageButton;
 
 import com.dobi.R;
@@ -61,6 +62,9 @@ public class MoreSceneDrawView extends MoreDrawViewBase {
 		if (activity != null) {
 			super.Inteligense(activity, bitmapBj, cj_width, cj_height);
 		} else {
+			if(sceneBitmap!=null){
+				sceneBitmap.recycle();
+			}
 			sceneBitmap = Bitmap.createScaledBitmap(bitmapBj, cjHeight
 					* bitmapBj.getWidth() / bitmapBj.getHeight(), cjHeight,
 					false);
@@ -79,7 +83,7 @@ public class MoreSceneDrawView extends MoreDrawViewBase {
 		for (MoreFaceItem mMoreFaceItem : moreFaceItems) {
 			int index = mMoreFaceItem.getIndex();
 			File faceBackFile = new File(mScenePath + "/" + (index + 1)
-					+ ".png");
+					+ "png");
 			if (faceBackFile.exists()) {
 				Bitmap faceBackBitmap = mImageManager
 						.getBitmapFromFile(faceBackFile);
@@ -89,7 +93,7 @@ public class MoreSceneDrawView extends MoreDrawViewBase {
 								* bitmapBj.getWidth() / bitmapBj.getHeight()
 								/ bjWidth, faceBackBitmap.getHeight()
 								* cjHeight / bjHeight, false);
-				mBmps[index * 2 + 1] = new Bmp(faceBackBitmap, index * 2 + 1,
+				mBmps[index * 2 + 1] = new Bmp(faceBackBitmap, -1,
 						(float) mMoreFaceItem.getLocation()[0],
 						(float) mMoreFaceItem.getLocation()[1], false, false,
 						false);
@@ -124,6 +128,9 @@ public class MoreSceneDrawView extends MoreDrawViewBase {
 		List<MoreFaceItem> listMoreFaceItem = new ArrayList<MoreFaceItem>();
 		// List<int[]> list = new ArrayList<int[]>(); TODO for test
 		List<int[]> list = mImageManager.getRed(sceneBitmap, count);
+		
+		Log.i("jiang","list.size()"+list.size());
+		Log.i("jiang","count"+count);
 		for (int i = 0; i < list.size(); i++) {
 			MoreFaceItem mMoreFaceItem = new MoreFaceItem();
 			mMoreFaceItem.setIndex(i);
@@ -131,7 +138,7 @@ public class MoreSceneDrawView extends MoreDrawViewBase {
 			mMoreFaceItem.setHangest(true);
 			listMoreFaceItem.add(mMoreFaceItem);
 		}
-
+		Log.i("jiang", "jiangjiangjinag");
 		this.setMoreFaceItems(listMoreFaceItem);
 	}
 
@@ -143,7 +150,9 @@ public class MoreSceneDrawView extends MoreDrawViewBase {
 	 */
 	@SuppressLint("NewApi")
 	public void updateFaces(boolean isChangeScene) {
+		//Log.i("jiang", moreFaceItems.size()+"fuck");
 		if (moreFaceItems != null) {
+			Log.i("jiang","fuck222");
 			if (moreFaceItems.size() > 0) {
 				for (int i = 0; i < moreFaceItems.size(); i++) {
 					if (moreFaceItems.get(i).isHangest()) {
@@ -154,9 +163,9 @@ public class MoreSceneDrawView extends MoreDrawViewBase {
 										+ ConstValue.ROOT_PATH
 										+ ConstValue.MORE_CLIP_FACE
 										+ ConstValue.ImgName.morePhotoClip
-												.toString() + i + ".jpg");
+												.toString() + i + "jpg");
 						moreFaceItems.get(i).setmBitmap(faceBitmap);
-
+						Log.i("jiang","fuck333");
 						if (faceBitmap != null) {
 							// 第一次进入改成瓜子脸
 							InputStream mInputStream = getResources()
@@ -165,7 +174,7 @@ public class MoreSceneDrawView extends MoreDrawViewBase {
 									.getSVGFromResource(mInputStream);
 							faceBitmap = mImageManager.ClipBitmapOnSVG(
 									faceBitmap, mSVG);
-
+							
 							// 正比控制显示比例
 							float expSize = 7f;
 							faceBitmap = Bitmap
@@ -178,8 +187,7 @@ public class MoreSceneDrawView extends MoreDrawViewBase {
 							int face_x = moreFaceItems.get(i).getLocation()[0];
 							int face_y = moreFaceItems.get(i).getLocation()[1]
 									+ cjHeight * 2 / 100;
-							mBmps[i * 2] = new Bmp(faceBitmap, i * 2, face_x,
-									face_y, true, true, false);
+							mBmps[i * 2] = new Bmp(faceBitmap, i * 2, face_x,face_y, true, true, false);
 							// 重新拍摄脸部的情况
 							if (!isChangeScene) {
 								this.intBmp(i * 2);

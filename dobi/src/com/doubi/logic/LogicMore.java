@@ -27,15 +27,13 @@ public class LogicMore {
 	 * @param linear
 	 */
 	@SuppressLint("NewApi")
-	public void creatBtnToFace(MoreSceneDrawView mSceneDrawView,
+	public void creatBtnToFace(final MoreSceneDrawView mSceneDrawView,
 			Activity context, final LinearLayout linear) {
 		FrameLayout view = (FrameLayout) context
 				.findViewById(R.id.drawViewFrameLayout);
-
 		// ºìµãµÄ
 		for (final MoreFaceItem mMoreFaceItem : mSceneDrawView
 				.getMoreFaceItems()) {
-
 			int[] c = mMoreFaceItem.getLocation();
 			final int[] d = c;
 
@@ -64,7 +62,6 @@ public class LogicMore {
 			head.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-
 					if (v.getId() != id) {
 						clickFlag = false;
 						LayoutParams params2 = new LayoutParams(
@@ -72,6 +69,7 @@ public class LogicMore {
 						params2.setMargins(d[0] - params2.width / 2, d[1]
 								+ params2.height / 2, 0, 0);
 						linear.setLayoutParams(params2);
+						linear.setTag(mMoreFaceItem.getIndex());
 						linear.setVisibility(View.VISIBLE);
 					} else if (clickFlag = false) {
 						clickFlag = true;
@@ -87,6 +85,7 @@ public class LogicMore {
 					}
 					id = v.getId();
 					mMoreFaceItem.setHangest(true);
+					mSceneDrawView.selectMap(mSceneDrawView.mBmps[mMoreFaceItem.getIndex()*2]);
 				}
 
 			});

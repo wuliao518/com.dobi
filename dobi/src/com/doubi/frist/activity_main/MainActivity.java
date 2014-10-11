@@ -1,22 +1,12 @@
 package com.doubi.frist.activity_main;
 
-import java.io.File;
-
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.AlertDialog.Builder;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
-import android.provider.MediaStore;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,10 +14,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.LinearLayout.LayoutParams;
 
@@ -67,18 +54,14 @@ public class MainActivity extends Activity {
 		// 友盟推送
 		PushAgent mPushAgent = PushAgent.getInstance(context);
 		mPushAgent.enable();
-
 		shared = new SharedConfig(context).GetConfig(); // 得到配置文件
 		netManager = new NetManager(context); // 得到网络管理器
-		
-		
-		
+
 		
 	}
 
 	@Override
 	protected void onResume() {
-		
 		super.onResume();
 		UpdateAPK update = new UpdateAPK(MainActivity.this);
 		update.checkUpdateInfo(MainActivity.this);

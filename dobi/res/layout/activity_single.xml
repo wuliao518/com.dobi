@@ -6,14 +6,14 @@
 
     <RelativeLayout
         android:id="@+id/topLinear"
-        android:background="@android:color/black"
+        android:background="#ECE7E3"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/black"
+            android:background="#ECE7E3"
             android:orientation="horizontal" >
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -274,6 +274,7 @@
         android:id="@+id/btnRelative"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
+        android:background="#ECE7E3"
         android:layout_alignParentBottom="true" >
 
         <LinearLayout

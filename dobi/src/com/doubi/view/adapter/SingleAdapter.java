@@ -294,7 +294,6 @@ public class SingleAdapter extends BaseAdapter implements OnScrollListener{
 		BtnOnClickListener btnListener = new BtnOnClickListener(drawView,
 				position, InitiallyBitmapPath, currentStage, mType);
 		imgBtnFace.setOnClickListener(btnListener);
-		// mBitmap.recycle();
 		return convertView;
 	}
 
